@@ -1,8 +1,8 @@
-# Algorithmia
+# The Algorithmia Ruby Client
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/algorithmia`. To experiment with that code, run `bin/console` for an interactive prompt.
+The Algorithmia Ruby client is a wrapper for making calls to the Algorithmia API and Data API.
 
-TODO: Delete this and the text above, and describe your gem
+With Algorithmia, you can leverage algorithms written in any language by including them in your Ruby project with a simple API call! Browse the collection of algorithms available on [Algorithmia.com](http://algorithmia.com).
 
 ## Installation
 
@@ -14,15 +14,34 @@ gem 'algorithmia'
 
 And then execute:
 
-    $ bundle
+```bash
+$ bundle
+```
 
 Or install it yourself as:
+```bash
+$ gem install algorithmia
+```
 
-    $ gem install algorithmia
+## Basic Usage
 
-## Usage
+```ruby
+require algorithmia
 
-TODO: Write usage instructions here
+# Create a new client instance
+client = Algorithmia.new
+# Authenticate with your API key
+Algorithmia.api_key = "YOUR_API_KEY"
+
+algorithm        = client.algo('demo/Hello/0.1.1')
+algorithm_result = algorithm.pipe("HAL 9000").result
+puts algorithm_result
+# -> Hello HAL 9000
+```
+
+## Stuck? Need help?
+
+Check out our guides, tutorials, and how-tos in the [Algorithmia Developer Center](http://developers.algorithmia.com) as well as finding more specifics in our [API documentation](http://docs.algorithmia.com).
 
 ## Development
 
@@ -32,5 +51,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/algorithmia. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on [GitHub](https://github.com/algorithmiaio/algorithmia-ruby). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
