@@ -1,5 +1,8 @@
-require 'algorithmia/version'
 require 'httparty'
+
+require 'algorithmia/version'
+require 'algorithmia/authentication'
+require 'algorithmia/errors'
 
 module Algorithmia
 

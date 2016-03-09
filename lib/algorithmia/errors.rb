@@ -1,0 +1,1 @@
+class AlgorithmiaApiKeyEmpty < Exception; end
