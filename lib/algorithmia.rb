@@ -1,5 +1,10 @@
-require "algorithmia/version"
+require 'algorithmia/version'
+require 'httparty'
 
 module Algorithmia
-  # Your code goes here...
+
+  class Client
+    include HTTParty
+    base_uri 'https://api.algorithmia.com/v1'
+  end
 end
