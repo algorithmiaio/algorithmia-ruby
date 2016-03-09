@@ -3,6 +3,7 @@ require 'httparty'
 require 'algorithmia/version'
 require 'algorithmia/authentication'
 require 'algorithmia/errors'
+require 'algorithmia/http'
 
 module Algorithmia
 
