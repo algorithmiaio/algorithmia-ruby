@@ -2,14 +2,24 @@ class Client
   private
 
   def self.get_http(endpoint, params = {})
-    # set params, make get request with query, headers, contenttype
+    params = params.to_s unless params.is_a?(Hash)
+    parse_output get(endpoint, body: params, headers: { "Authorization" => @api_key, "Content-Type" => "application/json" })
   end
 
   def self.post_http(endpoint, params = {})
-    # set params, make post request with query, headers, contenttype
+    params = params.to_s unless params.is_a?(Hash)
+    parse_output post(endpoint, body: params, headers: { "Authorization" => @api_key, "Content-Type" => "application/json" })
   end
 
   def self.parse_output(res)
-    # parse the result, handle errors
+    result = res.parsed_response
+
+    if result.include?(:error)
+      raise AlgorithmiaException.new(result[:error])
+    end
+    
+    result
+
+    #todo: rescue no method error, json parse, exception
   end
 end
