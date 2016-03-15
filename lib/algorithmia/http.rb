@@ -5,18 +5,17 @@ module Algorithmia
     include HTTParty
     base_uri "https://api.algorithmia.com/v1/algo"
     format :json
-    @user_agent = 'Algorithmia Ruby Client'
 
     private
 
     def self.get_http(endpoint, params = {})
       params = params.to_s unless params.is_a?(Hash)
-      parse_output get(endpoint, body: params, headers: { "Authorization" => @api_key, "Content-Type" => "application/json", "User-Agent" => @user_agent })
+      parse_output get(endpoint, body: params, headers: { "Authorization" => @api_key, "Content-Type" => "application/json" })
     end
 
     def self.post_http(endpoint, params = {})
       params = params.to_s unless params.is_a?(Hash)
-      parse_output post(endpoint, body: params, headers: { "Authorization" => @api_key, "Content-Type" => "application/json", "User-Agent" => @user_agent })
+      parse_output post(endpoint, body: params, headers: { "Authorization" => @api_key, "Content-Type" => "application/json" })
     end
 
     def self.parse_output(res)
