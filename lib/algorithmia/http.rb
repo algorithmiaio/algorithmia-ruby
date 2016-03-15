@@ -24,10 +24,9 @@ module Algorithmia
       if result.include?(:error)
         raise AlgorithmiaException.new(result[:error])
       end
-      
-      result
-
       #todo: rescue no method error, json parse, exception
+      
+      Algorithmia::Response.new(result)
     end
   end
 end

@@ -1,8 +1,10 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
+$:.push File.expand_path("../lib", __FILE__)
+
 require 'algorithmia/authentication'
-require 'algorithmia/version'
 require 'algorithmia/errors'
 require 'algorithmia/http'
+require 'algorithmia/response'
+require 'algorithmia/version'
 
 require 'singleton'
 
