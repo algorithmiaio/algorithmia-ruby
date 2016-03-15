@@ -1,6 +1,4 @@
-class Client
-  attr_writer :api_key
-
+class Algorithmia
   def self.api_key
     @api_key
   end

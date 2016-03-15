@@ -25,16 +25,19 @@ $ gem install algorithmia
 
 ## Basic Usage
 
+To call to the API, the gem uses a client model. Create and configure a client object with your API key to start making requests.
+
 ```ruby
 require algorithmia
 
 # Create a new client instance
-client = Algorithmia.new
-# Authenticate with your API key
-Algorithmia.api_key = "YOUR_API_KEY"
+client = Algorithmia.new({
+    # Authenticate with your API key
+    api_key: 'YOUR_API_KEY'
+})  
 
-algorithm        = client.algo('demo/Hello/0.1.1')
-algorithm_result = algorithm.pipe("HAL 9000").result
+algorithm        = 'demo/Hello/0.1.1'
+algorithm_result = client.call(algorithm, "HAL 9000").result
 puts algorithm_result
 # -> Hello HAL 9000
 ```
@@ -52,4 +55,9 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on [GitHub](https://github.com/algorithmiaio/algorithmia-ruby). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
+### Not Yet Implemented:
+- Interacting with the Algorithmia Data API
+- Passing in query parameters such as setting timeout values
+- Getting response metadata
 
