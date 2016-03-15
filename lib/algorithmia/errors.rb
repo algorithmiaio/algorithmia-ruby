@@ -1,1 +1,3 @@
-class AlgorithmiaApiKeyEmpty < Exception; end
+module Algorithmia
+  class AlgorithmiaApiKeyEmpty < Exception; end
+end
