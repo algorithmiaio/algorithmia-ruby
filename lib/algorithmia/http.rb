@@ -26,6 +26,15 @@ module Algorithmia
       else
         Algorithmia::Response.new(result)
       end
+
+      rescue NoMethodError => e
+        raise AlgorithmiaException.new(result)
+      rescue JSON::ParserError => e
+        raise AlgorithmiaException.new(e)
+      rescue Exception => e
+        raise AlgorithmiaException.new(e)
+      end
     end
+    
   end
 end
