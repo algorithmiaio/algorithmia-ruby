@@ -36,7 +36,7 @@ client = Algorithmia::Client
 client.api_key = 'YOUR_API_KEY'
 
 algorithm        = 'demo/Hello/0.1.1'
-algorithm_result = client.call(algorithm, "HAL 9000").result
+algorithm_result = client.algo(algorithm).pipe("HAL 9000").result
 puts algorithm_result
 # -> Hello HAL 9000
 ```
@@ -47,7 +47,7 @@ When a successful response from the algorithm is returned, a new Algorithmia::Re
 
 ``` ruby
 # Call an algorithm
-algorithm_response = client.call(algorithm, "HAL 9000")
+algorithm_response = client.algo(algorithm).pipe("HAL 9000").result
 puts algorithm_response
 => #<Algorithmia::Response:0x007f9fc2845850 @json={:result=>0.14970585904042558, :metadata=>{:content_type=>"json", :duration=>0.0006857780000000001}}>
 

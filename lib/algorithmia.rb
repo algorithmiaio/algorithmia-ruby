@@ -1,5 +1,6 @@
 $:.push File.expand_path("../lib", __FILE__)
 
+require 'algorithmia/algorithm'
 require 'algorithmia/authentication'
 require 'algorithmia/errors'
 require 'algorithmia/http'
@@ -14,8 +15,8 @@ module Algorithmia
     include Singleton
     attr_writer :api_key
 
-    def self.call(endpoint, input)
-      post_http("/#{endpoint}", input.to_json)
+    def self.algo(endpoint)
+      Algorithmia::Algorithm.new(self, endpoint)
     end
   end
 end
