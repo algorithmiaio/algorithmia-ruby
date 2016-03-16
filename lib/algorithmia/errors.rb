@@ -11,7 +11,11 @@ module Algorithmia
       when 'authorization required'
         raise AlgorithmiaApiKeyInvalid, "The API key you sent is invalid! Please set `Algorithmia::Client.api_key` with the key provided with your account."
       else
-        raise UnknownError, "Got an unknown error: #{@error[:message]}"
+        if @error[:stacktrace].nil?
+          raise UnknownError, "Got an unknown error: #{@error[:message]}"
+        else
+          raise UnknownError, "Got an unknown error: #{@error[:message]} with stacktrace: #{@error[:stacktrace]}"
+        end
       end
     end
 
