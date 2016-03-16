@@ -52,7 +52,7 @@ puts algorithm_response
 => #<Algorithmia::Response:0x007f9fc2845850 @json={:result=>0.14970585904042558, :metadata=>{:content_type=>"json", :duration=>0.0006857780000000001}}>
 
 # Get the raw json returned from the API
-puts algorithm_response.raw
+puts algorithm_response.raw_json
 => {:result=>0.14970585904042558, :metadata=>{:content_type=>"json", :duration=>0.0006857780000000001}}
 
 # Use any one of the following helper methods to understand the response
