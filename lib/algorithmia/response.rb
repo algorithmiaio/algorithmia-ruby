@@ -1,22 +1,38 @@
 module Algorithmia
   class Response
     def initialize(result)
+      @raw_response = result
       @json = symbolize_keys(result)
     end
 
-    def response
-      @json
+    def raw
+      # full response from algorithm call
+      @raw_response
     end
-    
+
     def result
+      # successful result from the algorithm
       @json[:result]
+    end
+
+    def metadata
+      @json[:metadata]
     end
 
     def duration
       @json[:metadata][:duration]
     end
-    def metadata
-      @json[:metadata]
+
+    def content_type
+      @json[:metadata][:content_type]
+    end
+
+    def stdout
+      @json[:metadata][:stdout]
+    end
+
+    def alerts
+      @json[:metadata][:alerts]
     end
 
     private

@@ -41,6 +41,35 @@ puts algorithm_result
 # -> Hello HAL 9000
 ```
 
+### Algorithm Responses
+
+When a successful response from the algorithm is returned, a new Algorithmia::Response object is created. 
+
+``` ruby
+# Call an algorithm
+algorithm_response = client.call(algorithm, "HAL 9000")
+puts algorithm_response
+=> #<Algorithmia::Response:0x007f9fc2845850 @json={:result=>0.14970585904042558, :metadata=>{:content_type=>"json", :duration=>0.0006857780000000001}}>
+
+# Get the raw json returned from the API
+puts algorithm_response.raw
+=> {:result=>0.14970585904042558, :metadata=>{:content_type=>"json", :duration=>0.0006857780000000001}}
+
+# Use any one of the following helper methods to understand the response
+puts algorithm_response.result
+=> 0.14970585904042558
+puts algorithm_response.metadata
+=> {:content_type=>"json", :duration=>0.0006857780000000001}
+puts algorithm_response.duration
+=> 0.0006857780000000001
+puts algorithm_response.content_type
+=> "json"
+puts algorithm_response.stdout
+=> nil
+puts algorithm_response.alerts
+=> nil
+```
+
 ## Stuck? Need help?
 
 Check out our guides, tutorials, and how-tos in the [Algorithmia Developer Center](http://developers.algorithmia.com) as well as finding more specifics in our [API documentation](http://docs.algorithmia.com).
