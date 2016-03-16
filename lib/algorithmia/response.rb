@@ -19,7 +19,9 @@ module Algorithmia
       @json[:metadata]
     end
 
-   def symbolize_keys(hash)
+    private
+
+    def symbolize_keys(hash)
       hash.inject({}){|result, (key, value)|
         new_key = case key
                   when String then key.to_sym

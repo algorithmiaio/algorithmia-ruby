@@ -21,12 +21,11 @@ module Algorithmia
     def self.parse_output(res)
       result = res.parsed_response
 
-      if result.include?(:error)
-        raise AlgorithmiaException.new(result[:error])
+      if result.include?("error")
+        Algorithmia::AlgorithmiaException.new(result)
+      else
+        Algorithmia::Response.new(result)
       end
-      #todo: rescue no method error, json parse, exception
-      
-      Algorithmia::Response.new(result)
     end
   end
 end
