@@ -86,6 +86,10 @@ Bug reports and pull requests are welcome on [GitHub](https://github.com/algorit
 
 ### Not Yet Implemented:
 - Interacting with the Algorithmia Data API
+    + DataFile Object
+    + DataDirectory Object
+- Non-authenticated methods on client
+- `pipeJson` method on algorithm object
 - Passing in query parameters such as setting timeout values
-- Getting response metadata
+- Tests! :scream:
 
