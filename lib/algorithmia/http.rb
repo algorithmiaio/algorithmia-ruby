@@ -8,14 +8,25 @@ module Algorithmia
 
     private
 
+    def self.set_headers(headers)
+      @headers = {
+        'Authorization': @api_key,
+        'Content-Type': 'application/json',
+        'User-Agent': 'Algorithmia Ruby Client'
+      }
+
+      @headers.tap { |h| h.merge!(headers) }
+    end
+
     def self.get_http(endpoint, params = {})
       params = params.to_s unless params.is_a?(Hash)
       parse_output get(endpoint, body: params, headers: { "Authorization" => @api_key, "Content-Type" => "application/json" })
     end
 
-    def self.post_http(endpoint, params = {})
+    def self.post_http(endpoint, headers, params = {})
       params = params.to_s unless params.is_a?(Hash)
-      parse_output post(endpoint, body: params, headers: { "Authorization" => @api_key, "Content-Type" => "application/json" })
+      set_headers(headers)
+      parse_output post(endpoint, body: params, headers: @headers)
     end
 
     def self.parse_output(res)
