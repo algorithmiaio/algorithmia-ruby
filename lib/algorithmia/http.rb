@@ -33,8 +33,7 @@ module Algorithmia
         raise AlgorithmiaException.new(e)
       rescue Exception => e
         raise AlgorithmiaException.new(e)
-      end
     end
-    
+
   end
 end
