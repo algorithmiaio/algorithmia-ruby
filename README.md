@@ -84,12 +84,11 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 Bug reports and pull requests are welcome on [GitHub](https://github.com/algorithmiaio/algorithmia-ruby). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
-### Not Yet Implemented:
+## Not Yet Implemented:
 - Interacting with the Algorithmia Data API
     + DataFile Object
     + DataDirectory Object
 - Non-authenticated methods on client
-- `pipeJson` method on algorithm object
 - Passing in query parameters such as setting timeout values
 - Tests! :scream:
 
