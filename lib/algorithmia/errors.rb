@@ -10,6 +10,8 @@ module Algorithmia
       case @error[:message]
       when 'authorization required'
         raise AlgorithmiaApiKeyInvalid, "The API key you sent is invalid! Please set `Algorithmia::Client.api_key` with the key provided with your account."
+      when 'Failed to parse input, input did not parse as valid json'
+        raise AlgorithmiaJsonParseFailure, "Unable to parse the input. Please make sure it matches the expected input of the algorithm and can be parsed into JSON."
       else
         if @error[:stacktrace].nil?
           raise UnknownError, "Got an unknown error: #{@error[:message]}"
@@ -39,5 +41,6 @@ module Algorithmia
 
   class AlgorithmiaApiKeyEmpty < Exception; end
   class AlgorithmiaApiKeyInvalid < Exception; end
+  class AlgorithmiaJsonParseFailure < Exception; end
   class UnknownError < Exception; end
 end
