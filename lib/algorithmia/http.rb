@@ -4,7 +4,6 @@ module Algorithmia
   class Client
     include HTTParty
     base_uri "https://api.algorithmia.com/v1/algo"
-    format :json
 
     private
 

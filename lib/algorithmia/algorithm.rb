@@ -9,13 +9,12 @@ module Algorithmia
     def pipe(input)
       @headers = {}
       check_content_type(input)
-      @client.post_http("/#{@endpoint}", @headers, input.to_json)
+      @client.post_http("/#{@endpoint}", @headers, input)
     end
 
     def pipeJson(input)
-      #Same as .pipe(String) except that the request Content-Type is application/json.
-      # Examples:
-      # response = algo.pipeJson("[\"foo\", \"bar\"]")
+      @headers = {'Content-Type': 'application/json'}
+      @client.post_http("/#{@endpoint}", @headers, input)
     end
 
     def self.set_options(options_hash)
