@@ -6,6 +6,9 @@ require 'algorithmia/errors'
 require 'algorithmia/http'
 require 'algorithmia/response'
 require 'algorithmia/version'
+require 'algorithmia/data/data_object'
+require 'algorithmia/data/data_file'
+require 'algorithmia/data/data_directory'
 
 require 'singleton'
 
