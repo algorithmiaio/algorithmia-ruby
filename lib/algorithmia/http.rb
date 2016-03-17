@@ -17,15 +17,18 @@ module Algorithmia
       @headers.tap { |h| h.merge!(headers) }
     end
 
-    def self.get_http(endpoint, params = {})
-      params = params.to_s unless params.is_a?(Hash)
-      parse_output get(endpoint, body: params, headers: { "Authorization" => @api_key, "Content-Type" => "application/json" })
-    end
-
-    def self.post_http(endpoint, headers, params = {})
+    def self.get_http(endpoint, headers, params = {})
       params = params.to_s unless params.is_a?(Hash)
       set_headers(headers)
-      parse_output post(endpoint, body: params, headers: @headers)
+
+      parse_output get(endpoint, body: params, headers: @headers)
+    end
+
+    def self.post_http(endpoint, headers, input, options)
+      input = input.to_s unless input.is_a?(Hash)
+      set_headers(headers)
+
+      parse_output post(endpoint, body: input, headers: @headers, query: options)
     end
 
     def self.parse_output(res)
@@ -36,13 +39,6 @@ module Algorithmia
       else
         Algorithmia::Response.new(result)
       end
-
-      rescue NoMethodError => e
-        raise AlgorithmiaException.new(result)
-      rescue JSON::ParserError => e
-        raise AlgorithmiaException.new(e)
-      rescue Exception => e
-        raise AlgorithmiaException.new(e)
     end
 
   end

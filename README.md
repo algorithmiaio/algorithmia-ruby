@@ -38,7 +38,26 @@ client.api_key = 'YOUR_API_KEY'
 algorithm        = 'demo/Hello/0.1.1'
 algorithm_result = client.algo(algorithm).pipe("HAL 9000").result
 puts algorithm_result
-# -> Hello HAL 9000
+# => Hello HAL 9000
+```
+
+### Algorithm Objects
+
+When you call `.algo` on your client, it will return a new instance of `Algorithmia::Algorithm`. On this object, you have the the following methods:
+- `pipe`: the default method to calling an algorithm (recommended)
+- `pipeJson`
+- `set_options`: set query parameters on your request
+
+```ruby
+algorithm = client.algo('demo/Hello/0.1.1')
+# => #<Algorithmia::Algorithm:0x007f80ea092fc8 @client=Algorithmia::Client, @endpoint="demo/Hello/0.1.1", @query_options={:timeout=>300, :stdout=>false, :output=>"default"}>
+
+# Pass in a hash of options to override the default query parameters
+algorithm.set_options({'timeout': 500})
+# => {:timeout=>500, :stdout=>false, :output=>"default"}
+
+result = algorithm.pipe('HAL 9000')
+# => Hello HAL 9000
 ```
 
 ### Algorithm Responses
@@ -49,25 +68,25 @@ When a successful response from the algorithm is returned, a new Algorithmia::Re
 # Call an algorithm
 algorithm_response = client.algo(algorithm).pipe("HAL 9000").result
 puts algorithm_response
-=> #<Algorithmia::Response:0x007f9fc2845850 @json={:result=>0.14970585904042558, :metadata=>{:content_type=>"json", :duration=>0.0006857780000000001}}>
+# => #<Algorithmia::Response:0x007f9fc2845850 @json={:result=>0.14970585904042558, :metadata=>{:content_type=>"json", :duration=>0.0006857780000000001}}>
 
 # Get the raw json returned from the API
 puts algorithm_response.raw_json
-=> {:result=>0.14970585904042558, :metadata=>{:content_type=>"json", :duration=>0.0006857780000000001}}
+# => {:result=>0.14970585904042558, :metadata=>{:content_type=>"json", :duration=>0.0006857780000000001}}
 
 # Use any one of the following helper methods to understand the response
 puts algorithm_response.result
-=> 0.14970585904042558
+# => 0.14970585904042558
 puts algorithm_response.metadata
-=> {:content_type=>"json", :duration=>0.0006857780000000001}
+# => {:content_type=>"json", :duration=>0.0006857780000000001}
 puts algorithm_response.duration
-=> 0.0006857780000000001
+# => 0.0006857780000000001
 puts algorithm_response.content_type
-=> "json"
+# => "json"
 puts algorithm_response.stdout
-=> nil
+# => nil
 puts algorithm_response.alerts
-=> nil
+# => nil
 ```
 
 ## Stuck? Need help?

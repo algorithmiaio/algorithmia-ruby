@@ -4,23 +4,26 @@ module Algorithmia
     def initialize(client, endpoint)
       @client = client
       @endpoint = endpoint
+      @query_options = {
+        timeout: 300,
+        stdout: false,
+        output: 'default'
+      }
+    end
+
+    def set_options(options_hash)
+      @query_options.update(options_hash)
     end
 
     def pipe(input)
       @headers = {}
       check_content_type(input)
-      @client.post_http("/#{@endpoint}", @headers, input)
+      @client.post_http("/#{@endpoint}", @headers, input, @query_options)
     end
 
     def pipeJson(input)
       @headers = {'Content-Type': 'application/json'}
-      @client.post_http("/#{@endpoint}", @headers, input)
-    end
-
-    def self.set_options(options_hash)
-      self.query_params = {'timeout': @timeout, 'stdout': @stdout }
-      self.output_type = @output
-      self.query_parameters.update(query_parameters)
+      @client.post_http("/#{@endpoint}", @headers, input, @query_options)
     end
 
     private
