@@ -56,6 +56,15 @@ algorithm = client.algo('demo/Hello/0.1.1')
 algorithm.set_options({'timeout': 500})
 # => {:timeout=>500, :stdout=>false, :output=>"default"}
 
+# Use these helper methods to enable stdout or change the timeout value
+algorithm.set_timeout(500)
+# => 500
+algorithm.enable_stdout
+# => true
+algorithm
+# => #<Algorithmia::Algorithm:0x007fa008b02de0 @client=Algorithmia::Client, @endpoint="demo/hello", @query_options={:timeout=>500, :stdout=>true, :output=>"default"}>
+
+# Pass the input to the algorithm
 result = algorithm.pipe('HAL 9000')
 # => Hello HAL 9000
 ```
@@ -108,6 +117,5 @@ Bug reports and pull requests are welcome on [GitHub](https://github.com/algorit
     + DataFile Object
     + DataDirectory Object
 - Non-authenticated methods on client
-- Passing in query parameters such as setting timeout values
 - Tests! :scream:
 

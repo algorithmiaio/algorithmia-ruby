@@ -15,6 +15,14 @@ module Algorithmia
       @query_options.update(options_hash)
     end
 
+    def set_timeout(timeout)
+      @query_options[:timeout] = timeout.to_i
+    end
+
+    def enable_stdout
+      @query_options[:stdout] = true
+    end
+
     def pipe(input)
       @headers = {}
       check_content_type(input)
