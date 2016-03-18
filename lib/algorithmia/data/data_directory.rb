@@ -8,7 +8,5 @@ module Algorithmia
     def exists?
     end
 
-    def get_file
-    end
   end
 end

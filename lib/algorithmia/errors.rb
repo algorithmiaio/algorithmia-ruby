@@ -41,6 +41,7 @@ module Algorithmia
 
   class AlgorithmiaApiKeyEmpty < Exception; end
   class AlgorithmiaApiKeyInvalid < Exception; end
+  class AlgorithmiaUnauthorized < Exception; end
   class AlgorithmiaJsonParseFailure < Exception; end
   class UnknownError < Exception; end
 end

@@ -3,7 +3,7 @@ module Algorithmia
 
     def initialize(client, endpoint)
       @client = client
-      @endpoint = endpoint
+      @endpoint = '/algo/' + endpoint
       @query_options = {
         timeout: 300,
         stdout: false,

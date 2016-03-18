@@ -3,11 +3,11 @@ require 'httparty'
 module Algorithmia
   class Client
     include HTTParty
-    base_uri "https://api.algorithmia.com/v1/algo"
+    base_uri "https://api.algorithmia.com/v1"
 
     private
 
-    def self.set_headers(headers)
+    def self.set_headers(headers = {})
       @headers = {
         'Authorization': @api_key,
         'Content-Type': 'application/json',
@@ -17,8 +17,8 @@ module Algorithmia
       @headers.tap { |h| h.merge!(headers) }
     end
 
-    def self.get_http(endpoint, headers, params = {})
-      params = params.to_s unless params.is_a?(Hash)
+    def self.get_http(endpoint, headers, input, options)
+      input = input.to_s unless input.is_a?(Hash)
       set_headers(headers)
 
       parse_output get(endpoint, body: params, headers: @headers)
@@ -29,6 +29,11 @@ module Algorithmia
       set_headers(headers)
 
       parse_output post(endpoint, body: input, headers: @headers, query: options)
+    end
+
+    def self.request_head(endpoint)
+      set_headers
+      response = head(endpoint, headers: @headers)
     end
 
     def self.parse_output(res)
