@@ -36,6 +36,11 @@ module Algorithmia
       response = head(endpoint, headers: @headers)
     end
 
+    def self.delete_file(endpoint)
+      set_headers
+      response = delete(endpoint, headers: @headers)
+    end
+
     def self.parse_output(res)
       result = res.parsed_response
 
