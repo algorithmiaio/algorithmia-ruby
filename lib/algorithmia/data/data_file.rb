@@ -31,7 +31,6 @@ module Algorithmia
     end
 
     def delete
-      raise AlgorithmiaNotFound.new("File not found.") if !self.exists?
       response = @client.delete_file(@url)
       case response["result"]["deleted"]
       when 1
