@@ -1,10 +1,10 @@
 require 'httparty'
 
 module Algorithmia
+  include HTTParty
+  base_uri "https://api.algorithmia.com/v1"
 
   class << self
-    include HTTParty
-    base_uri "https://api.algorithmia.com/v1"
 
     def set_headers(headers = {})
       @headers = {
