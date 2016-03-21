@@ -14,6 +14,20 @@ require 'singleton'
 
 module Algorithmia
 
+  class << self
+    def algo(endpoint)
+      Algorithmia::Algorithm.new(nil, endpoint)
+    end
+
+    def file(data_uri)
+      Algorithmia::DataFile.new(nil, data_uri)
+    end
+  
+    def dir(data_uri)
+      Algorithmia::DataDirectory.new(nil, data_uri)
+    end
+  end
+
   class Client
     include Singleton
     attr_writer :api_key

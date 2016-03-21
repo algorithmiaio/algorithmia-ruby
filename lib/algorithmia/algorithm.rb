@@ -26,12 +26,12 @@ module Algorithmia
     def pipe(input)
       @headers = {}
       check_content_type(input)
-      @client.post_http("/#{@endpoint}", @headers, input, @query_options)
+      Algorithmia.post_http("#{@endpoint}", @headers, input, @query_options)
     end
 
     def pipeJson(input)
       @headers = {'Content-Type': 'application/json'}
-      @client.post_http("/#{@endpoint}", @headers, input, @query_options)
+      Algorithmia.post_http("#{@endpoint}", @headers, input, @query_options)
     end
 
     private
