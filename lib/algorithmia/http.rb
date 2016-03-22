@@ -1,4 +1,5 @@
 require 'httparty'
+require 'tempfile'
 
 module Algorithmia
   include HTTParty
@@ -20,7 +21,7 @@ module Algorithmia
       input = input.to_s unless input.is_a?(Hash)
       set_headers(headers)
 
-      parse_output get(endpoint, body: params, headers: @headers)
+      parse_output get(endpoint, body: input, headers: @headers)
     end
 
     def post_http(endpoint, headers, input, options)
@@ -41,13 +42,22 @@ module Algorithmia
     end
 
     def get_file(endpoint)
-      binding.pry
-      file = Tempfile.new(endpoint) do |f|
-        f.write get(endpoint, body: params, headers: @headers).parsed_response
-        f.close
+      set_headers
+      filename = File.basename(endpoint)
+      response = get(endpoint, headers: @headers).parsed_response
+
+      if response.include?("error")
+        Algorithmia::AlgorithmiaException.new(response)
+      else
+        tempfile = Tempfile.open(filename) do |f|
+          f.write response
+          f
+        end
+        File.new(tempfile.path)
       end
-      file.path
     end
+
+    private
 
     def parse_output(res)
       result = res.parsed_response

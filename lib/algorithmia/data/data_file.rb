@@ -25,7 +25,7 @@ module Algorithmia
     end
 
     def get_file
-      Algorithmia.get_file(@url.basename)
+      Algorithmia.get_file(@url)
     end
 
     def put
