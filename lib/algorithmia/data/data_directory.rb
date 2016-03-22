@@ -16,6 +16,9 @@ module Algorithmia
       Algorithmia::Http.new(@client).get(@url)
     end
 
+    def create
+    end
+
     def delete
       Algorithmia::Http.new(@client).delete(@url, query: { force: :true })
     end
@@ -32,16 +35,18 @@ module Algorithmia
       # getDirIterator should iterate over only directories (skipping any files)
     end
 
-    def create
-    end
-
     def file(file_name)
-      Algorithmia::DataFile.new(@client, @data_uri + file_name)
+      # TODO: check if filename has leading slash; if not, add it
+      @client.file(@data_uri + file_name)
     end
 
     def put_file(file_path)
       file = File.read(file_path)
       Algorithmia::Http.new(@client).put(@url, file)
+    end
+
+    def parent
+      @client.dir(Pathname.new(@data_uri).parent.to_s)
     end
   end
 end

@@ -67,7 +67,7 @@ module Algorithmia
     end
 
     def parent
-      # return DataDirectory
+      @client.dir(File.dirname(@data_uri))
     end
   end
 end
