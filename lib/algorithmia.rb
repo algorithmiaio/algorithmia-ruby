@@ -35,5 +35,9 @@ module Algorithmia
     def self.algo(endpoint)
       Algorithmia::Algorithm.new(self, endpoint)
     end
+
+    def self.file(endpoint)
+      Algorithmia::DataFile.new(self, endpoint)
+    end
   end
 end

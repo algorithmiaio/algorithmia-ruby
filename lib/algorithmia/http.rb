@@ -40,6 +40,15 @@ module Algorithmia
       response = delete(endpoint, headers: @headers)
     end
 
+    def get_file(endpoint)
+      binding.pry
+      file = Tempfile.new(endpoint) do |f|
+        f.write get(endpoint, body: params, headers: @headers).parsed_response
+        f.close
+      end
+      file.path
+    end
+
     def parse_output(res)
       result = res.parsed_response
 

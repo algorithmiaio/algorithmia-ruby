@@ -13,7 +13,7 @@ module Algorithmia
     end
 
     def exists?
-      response = @client.request_head(@url)
+      response = Algorithmia.request_head(@url)
       case response.code
       when 200
         return true
@@ -24,14 +24,15 @@ module Algorithmia
       end
     end
 
-    def get
+    def get_file
+      Algorithmia.get_file(@url.basename)
     end
 
     def put
     end
 
     def delete
-      response = @client.delete_file(@url)
+      response = Algorithmia.delete_file(@url)
       case response["result"]["deleted"]
       when 1
         return true
@@ -41,9 +42,6 @@ module Algorithmia
     end
 
     def parent
-    end
-
-    def base_name
     end
   end
 end
