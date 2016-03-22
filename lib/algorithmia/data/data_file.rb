@@ -67,6 +67,7 @@ module Algorithmia
     end
 
     def parent
+      # return DataDirectory
     end
 
     def basename

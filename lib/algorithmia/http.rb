@@ -41,8 +41,8 @@ module Algorithmia
       response
     end
 
-    def delete(endpoint)
-      response = self.class.delete(endpoint, headers: @default_headers)
+    def delete(endpoint, query: {})
+      response = self.class.delete(endpoint, query: query, headers: @default_headers)
       check_for_errors(response)
       response
     end

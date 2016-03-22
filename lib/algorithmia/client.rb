@@ -13,5 +13,9 @@ module Algorithmia
     def file(endpoint)
       Algorithmia::DataFile.new(self, endpoint)
     end
+
+    def dir(endpoint)
+      Algorithmia::DataDirectory.new(self, endpoint)
+    end
   end
 end
