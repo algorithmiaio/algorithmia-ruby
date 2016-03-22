@@ -29,7 +29,6 @@ module Algorithmia
     def get_file
       response = get_string
 
-      # TODO fix this filename
       tempfile = Tempfile.open(File.basename(@url)) do |f|
         f.write response
         f
@@ -55,7 +54,7 @@ module Algorithmia
     end
 
     def put_file(file_path)
-      file = File.new(file_path)
+      file = File.read(file_path)
       Algorithmia::Http.new(@client).put(@url, file)
     end
 
