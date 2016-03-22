@@ -1,5 +1,4 @@
 require 'httparty'
-require 'tempfile'
 
 module Algorithmia
   class Http
@@ -15,17 +14,14 @@ module Algorithmia
       }
     end
 
-    def get(endpoint, input, options, headers: {})
-      input = input.to_s unless input.is_a?(Hash)
+    def get(endpoint, headers: {})
       headers = merge_headers(headers)
-      parse_output self.class.get(endpoint, body: input, headers: headers)
+      self.class.get(endpoint, headers: headers)
     end
 
-    def post(endpoint, input, options, headers: {})
-      input = input.to_s unless input.is_a?(Hash)
+    def post(endpoint, body, query: {}, headers: {})
       headers = merge_headers(headers)
-
-      parse_output self.class.post(endpoint, body: input, headers: headers, query: options)
+      self.class.post(endpoint, body: body, query: query, headers: headers)
     end
 
     def head(endpoint)
@@ -36,37 +32,7 @@ module Algorithmia
       self.class.delete(endpoint, headers: @default_headers)
     end
 
-    def get_string(endpoint)
-      filename = File.basename(endpoint)
-      self.class.get(endpoint, headers: @default_headers).parsed_response
-    end
-
-    def get_file(endpoint)
-      response = get_string(endpoint)
-
-      if response.include?("error")
-        raise Errors.parse_error(result)
-      end
-
-      tempfile = Tempfile.open(filename) do |f|
-        f.write response
-        f
-      end
-
-      File.new(tempfile.path)
-    end
-
     private
-
-    def parse_output(res)
-      result = res.parsed_response
-
-      if result.include?("error")
-        raise Errors.parse_error(result)
-      end
-
-      Algorithmia::Response.new(result)
-    end
 
     def merge_headers(headers = {})
       @default_headers.merge(headers)

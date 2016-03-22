@@ -1,3 +1,5 @@
+require 'tempfile'
+
 module Algorithmia
   class DataFile < DataObject
 
@@ -25,11 +27,18 @@ module Algorithmia
     end
 
     def get_file
-      Algorithmia::Http.new(@client).get_file(@url)
+      response = get_string(endpoint)
+
+      tempfile = Tempfile.open(filename) do |f|
+        f.write response
+        f
+      end
+
+      File.new(tempfile.path)
     end
 
     def get_string
-      Algorithmia::Http.new(@client).get_string(@url)
+      Algorithmia::Http.new(@client).get(@url).body
     end
 
     def get_bytes

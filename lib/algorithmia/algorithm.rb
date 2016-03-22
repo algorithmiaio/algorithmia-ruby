@@ -37,11 +37,25 @@ module Algorithmia
         'Content-Type' => content_type
       }
 
-      Algorithmia::Http.new(@client).post("#{@endpoint}", input, @query_options, headers: headers)
+      response = Algorithmia::Http.new(@client).post(@endpoint, input, options: query_options, headers: headers)
+      parse_output(response)
     end
 
     def pipe_json(input)
-      Algorithmia::Http.new(@client).post("#{@endpoint}", input, @query_options)
+      response = Algorithmia::Http.new(@client).post(@endpoint, input, options: query_options, headers: {})
+      parse_output(response)
+    end
+
+    private
+
+    def parse_output(response)
+      result = response.parsed_response
+
+      if result.include?("error")
+        raise Errors.parse_error(result)
+      end
+
+      Algorithmia::Response.new(result)
     end
   end
 end
