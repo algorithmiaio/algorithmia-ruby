@@ -16,23 +16,37 @@ module Algorithmia
 
     def get(endpoint, headers: {})
       headers = merge_headers(headers)
-      self.class.get(endpoint, headers: headers)
+      response = self.class.get(endpoint, headers: headers)
+      check_for_errors(response)
+      response
     end
 
     def post(endpoint, body, query: {}, headers: {})
       headers = merge_headers(headers)
-      self.class.post(endpoint, body: body, query: query, headers: headers)
+      response = self.class.post(endpoint, body: body, query: query, headers: headers)
+      check_for_errors(response)
+      response
     end
 
     def head(endpoint)
-      self.class.head(endpoint, headers: @default_headers)
+      response = self.class.head(endpoint, headers: @default_headers)
+      check_for_errors(response)
+      response
     end
 
     def delete(endpoint)
-      self.class.delete(endpoint, headers: @default_headers)
+      response = self.class.delete(endpoint, headers: @default_headers)
+      check_for_errors(response)
+      response
     end
 
     private
+
+    def check_for_errors(response)
+      if response.code < 200 || response.code >= 300
+        raise Errors::UnknownError, "Got a #{response.code} from the API"
+      end
+    end
 
     def merge_headers(headers = {})
       @default_headers.merge(headers)
