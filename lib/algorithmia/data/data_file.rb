@@ -27,8 +27,9 @@ module Algorithmia
     end
 
     def get_file
-      response = get_string(endpoint)
+      response = get_string
 
+      # TODO fix this filename
       tempfile = Tempfile.open(filename) do |f|
         f.write response
         f
@@ -45,7 +46,17 @@ module Algorithmia
       get_string.bytes
     end
 
-    def put
+    def put(string)
+      Algorithmia::Http.new(@client).put(@url, string)
+    end
+
+    def put_json(json)
+      put(json)
+    end
+
+    def put_file(file_path)
+      file = File.new(file_path)
+      Algorithmia::Http.new(@client).put(@url, file)
     end
 
     def delete

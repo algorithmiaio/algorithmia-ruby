@@ -28,6 +28,13 @@ module Algorithmia
       response
     end
 
+    def put(endpoint, body, query: {}, headers: {})
+      headers = merge_headers(headers)
+      response = self.class.put(endpoint, body: body, query: query, headers: headers)
+      check_for_errors(response)
+      response
+    end
+
     def head(endpoint)
       response = self.class.head(endpoint, headers: @default_headers)
       check_for_errors(response)
