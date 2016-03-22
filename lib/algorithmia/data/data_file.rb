@@ -49,9 +49,7 @@ module Algorithmia
       Algorithmia::Http.new(@client).put(@url, string)
     end
 
-    def put_json(json)
-      put(json)
-    end
+    alias_method :put_json, :put
 
     def put_file(file_path)
       file = File.read(file_path)
@@ -69,6 +67,10 @@ module Algorithmia
     end
 
     def parent
+    end
+
+    def basename
+      File.basename(@url)
     end
   end
 end
