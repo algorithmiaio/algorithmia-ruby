@@ -44,21 +44,22 @@ module Algorithmia
     def get_string(endpoint)
       set_headers
       filename = File.basename(endpoint)
-      response = get(endpoint, headers: @headers).parsed_response
+      get(endpoint, headers: @headers).parsed_response
     end
 
     def get_file(endpoint)
-      get_string(endpoint)
+      response = get_string(endpoint)
 
       if response.include?("error")
-        Algorithmia::AlgorithmiaException.new(response)
-      else
-        tempfile = Tempfile.open(filename) do |f|
-          f.write response
-          f
-        end
-        File.new(tempfile.path)
+        raise Errors.parse_error(result)
       end
+
+      tempfile = Tempfile.open(filename) do |f|
+        f.write response
+        f
+      end
+
+      File.new(tempfile.path)
     end
 
     private
@@ -67,10 +68,10 @@ module Algorithmia
       result = res.parsed_response
 
       if result.include?("error")
-        Algorithmia::AlgorithmiaException.new(result)
-      else
-        Algorithmia::Response.new(result)
+        raise Errors.parse_error(result)
       end
+
+      Algorithmia::Response.new(result)
     end
 
   end

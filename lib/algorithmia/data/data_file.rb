@@ -18,7 +18,7 @@ module Algorithmia
       when 200
         return true
       when 401
-        raise AlgorithmiaUnauthorized, "The request you are making requires authorization. Please check that you have permissions & that you've set your API key."
+        raise Errors::AlgorithmiaUnauthorized, "The request you are making requires authorization. Please check that you have permissions & that you've set your API key."
       else
         return false
       end
@@ -45,7 +45,7 @@ module Algorithmia
       when 1
         return true
       else
-        raise UnknownError.new("Request failed.")
+        raise Errors::UnknownError, 'Request failed.'
       end
     end
 
