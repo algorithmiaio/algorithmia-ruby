@@ -32,5 +32,16 @@ module Algorithmia
       # getDirIterator should iterate over only directories (skipping any files)
     end
 
+    def create
+    end
+
+    def file(file_name)
+      Algorithmia::DataFile.new(@client, @data_uri + file_name)
+    end
+
+    def put_file(file_path)
+      file = File.read(file_path)
+      Algorithmia::Http.new(@client).put(@url, file)
+    end
   end
 end
