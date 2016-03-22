@@ -28,6 +28,14 @@ module Algorithmia
       Algorithmia.get_file(@url)
     end
 
+    def get_string
+      Algorithmia.get_string(@url)
+    end
+
+    def get_bytes
+      Algorithmia.get_string(@url).bytes
+    end
+
     def put
     end
 

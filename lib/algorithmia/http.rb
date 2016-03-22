@@ -33,18 +33,22 @@ module Algorithmia
 
     def request_head(endpoint)
       set_headers
-      response = head(endpoint, headers: @headers)
+      head(endpoint, headers: @headers)
     end
 
     def delete_file(endpoint)
       set_headers
-      response = delete(endpoint, headers: @headers)
+      delete(endpoint, headers: @headers)
     end
 
-    def get_file(endpoint)
+    def get_string(endpoint)
       set_headers
       filename = File.basename(endpoint)
       response = get(endpoint, headers: @headers).parsed_response
+    end
+
+    def get_file(endpoint)
+      get_string(endpoint)
 
       if response.include?("error")
         Algorithmia::AlgorithmiaException.new(response)
