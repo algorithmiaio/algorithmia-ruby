@@ -2,49 +2,43 @@ require 'httparty'
 require 'tempfile'
 
 module Algorithmia
-  include HTTParty
-  base_uri "https://api.algorithmia.com/v1"
+  class Http
+    include HTTParty
+    base_uri "https://api.algorithmia.com/v1"
 
-  class << self
-
-    def set_headers(headers = {})
-      @headers = {
-        'Authorization': Algorithmia::Client.api_key ||= '',
+    def initialize(client)
+      @client = client
+      @default_headers = {
+        'Authorization': @client.api_key || '',
         'Content-Type': 'application/json',
         'User-Agent': 'Algorithmia Ruby Client'
       }
-
-      @headers.tap { |h| h.merge!(headers) }
     end
 
-    def get_http(endpoint, headers, input, options)
+    def get(endpoint, input, options, headers: {})
       input = input.to_s unless input.is_a?(Hash)
-      set_headers(headers)
-
-      parse_output get(endpoint, body: input, headers: @headers)
+      headers = merge_headers(headers)
+      parse_output self.class.get(endpoint, body: input, headers: headers)
     end
 
-    def post_http(endpoint, headers, input, options)
+    def post(endpoint, input, options, headers: {})
       input = input.to_s unless input.is_a?(Hash)
-      set_headers(headers)
+      headers = merge_headers(headers)
 
-      parse_output post(endpoint, body: input, headers: @headers, query: options)
+      parse_output self.class.post(endpoint, body: input, headers: headers, query: options)
     end
 
-    def request_head(endpoint)
-      set_headers
-      head(endpoint, headers: @headers)
+    def head(endpoint)
+      self.class.head(endpoint, headers: @default_headers)
     end
 
-    def delete_file(endpoint)
-      set_headers
-      delete(endpoint, headers: @headers)
+    def delete(endpoint)
+      self.class.delete(endpoint, headers: @default_headers)
     end
 
     def get_string(endpoint)
-      set_headers
       filename = File.basename(endpoint)
-      get(endpoint, headers: @headers).parsed_response
+      self.class.get(endpoint, headers: @default_headers).parsed_response
     end
 
     def get_file(endpoint)
@@ -74,5 +68,8 @@ module Algorithmia
       Algorithmia::Response.new(result)
     end
 
+    def merge_headers(headers = {})
+      @default_headers.merge(headers)
+    end
   end
 end

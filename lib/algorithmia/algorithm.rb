@@ -24,28 +24,24 @@ module Algorithmia
     end
 
     def pipe(input)
-      @headers = {}
-      check_content_type(input)
-      Algorithmia.post_http("#{@endpoint}", @headers, input, @query_options)
+      content_type = case
+        when input.kind_of?(String) && input.encoding == 'ASCII-8BIT'
+          'application/octet-stream'
+        when input.kind_of?(String)
+          'text/plain'
+        else
+          'application/json'
+        end
+
+      headers = {
+        'Content-Type' => content_type
+      }
+
+      Algorithmia::Http.new(@client).post("#{@endpoint}", input, @query_options, headers: headers)
     end
 
-    def pipeJson(input)
-      @headers = {'Content-Type': 'application/json'}
-      Algorithmia.post_http("#{@endpoint}", @headers, input, @query_options)
+    def pipe_json(input)
+      Algorithmia::Http.new(@client).post("#{@endpoint}", input, @query_options)
     end
-
-    private
-
-    def check_content_type(input)
-      case
-      when input.kind_of?(String) && input.encoding == 'ASCII-8BIT'
-        @headers['Content-Type'] = 'application/octet-stream'
-      when input.kind_of?(String)
-        @headers['Content-Type'] = 'text/plain'
-      else
-        @headers['Content-Type'] = 'application/json'
-      end
-    end
-
   end
 end

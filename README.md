@@ -30,10 +30,8 @@ To call to the API, the gem uses a client model. Create and configure a client o
 ```ruby
 require algorithmia
 
-# Create a new client instance
-client = Algorithmia::Client
-# Authenticate with your API key
-client.api_key = 'YOUR_API_KEY'
+# Create a new client instance & set your API key
+client = Algorithmia.client('YOUR_API_KEY')
 
 algorithm        = 'demo/Hello/0.1.1'
 algorithm_result = client.algo(algorithm).pipe("HAL 9000").result

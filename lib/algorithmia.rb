@@ -1,43 +1,31 @@
-$:.push File.expand_path("../lib", __FILE__)
-
-require 'algorithmia/algorithm'
-require 'algorithmia/authentication'
-require 'algorithmia/errors'
-require 'algorithmia/http'
-require 'algorithmia/response'
-require 'algorithmia/version'
-require 'algorithmia/data/data_object'
-require 'algorithmia/data/data_file'
-require 'algorithmia/data/data_directory'
-
-require 'singleton'
+require_relative 'algorithmia/algorithm'
+require_relative 'algorithmia/authentication'
+require_relative 'algorithmia/client'
+require_relative 'algorithmia/errors'
+require_relative 'algorithmia/http'
+require_relative 'algorithmia/response'
+require_relative 'algorithmia/version'
+require_relative 'algorithmia/data/data_object'
+require_relative 'algorithmia/data/data_file'
+require_relative 'algorithmia/data/data_directory'
 
 module Algorithmia
 
   class << self
     def algo(endpoint)
-      Algorithmia::Algorithm.new(nil, endpoint)
+      Algorithmia::Algorithm.new(UnauthenticatedClient.new, endpoint)
     end
 
     def file(data_uri)
-      Algorithmia::DataFile.new(nil, data_uri)
+      Algorithmia::DataFile.new(UnauthenticatedClient.new, data_uri)
     end
-  
+
     def dir(data_uri)
-      Algorithmia::DataDirectory.new(nil, data_uri)
-    end
-  end
-
-  class Client
-    include Singleton
-    attr_writer :api_key
-
-    def self.algo(endpoint)
-      Algorithmia::Algorithm.new(self, endpoint)
+      Algorithmia::DataDirectory.new(UnauthenticatedClient.new, data_uri)
     end
 
-    def self.file(endpoint)
-      Algorithmia::DataFile.new(self, endpoint)
+    def client(api_key)
+      Algorithmia::Client.new(api_key)
     end
   end
 end

@@ -13,7 +13,7 @@ module Algorithmia
     end
 
     def exists?
-      response = Algorithmia.request_head(@url)
+      response = Algorithmia::Http.new(@client).head(@url)
       case response.code
       when 200
         return true
@@ -25,22 +25,22 @@ module Algorithmia
     end
 
     def get_file
-      Algorithmia.get_file(@url)
+      Algorithmia::Http.new(@client).get_file(@url)
     end
 
     def get_string
-      Algorithmia.get_string(@url)
+      Algorithmia::Http.new(@client).get_string(@url)
     end
 
     def get_bytes
-      Algorithmia.get_string(@url).bytes
+      get_string.bytes
     end
 
     def put
     end
 
     def delete
-      response = Algorithmia.delete_file(@url)
+      response = Algorithmia::Http.new(@client).delete(@url)
       case response["result"]["deleted"]
       when 1
         return true
