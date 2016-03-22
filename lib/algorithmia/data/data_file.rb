@@ -30,7 +30,7 @@ module Algorithmia
       response = get_string
 
       # TODO fix this filename
-      tempfile = Tempfile.open(filename) do |f|
+      tempfile = Tempfile.open(File.basename(@url)) do |f|
         f.write response
         f
       end
