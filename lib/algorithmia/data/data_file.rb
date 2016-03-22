@@ -69,9 +69,5 @@ module Algorithmia
     def parent
       # return DataDirectory
     end
-
-    def basename
-      File.basename(@url)
-    end
   end
 end

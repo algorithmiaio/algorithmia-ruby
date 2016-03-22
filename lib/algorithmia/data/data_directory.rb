@@ -26,7 +26,6 @@ module Algorithmia
 
     def getFileIterator
       # getFileIterator should iterate over only files (skipping any directories)
-
     end
 
     def getDirIterator

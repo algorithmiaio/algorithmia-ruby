@@ -5,5 +5,9 @@ module Algorithmia
       @client = client
       @data_uri = data_uri
     end
+
+    def basename
+      File.basename(@url)
+    end
   end
 end
