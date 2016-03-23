@@ -5,9 +5,9 @@ require_relative 'algorithmia/errors'
 require_relative 'algorithmia/http'
 require_relative 'algorithmia/response'
 require_relative 'algorithmia/version'
-require_relative 'algorithmia/data/data_object'
-require_relative 'algorithmia/data/data_file'
-require_relative 'algorithmia/data/data_directory'
+require_relative 'algorithmia/data_object'
+require_relative 'algorithmia/data_file'
+require_relative 'algorithmia/data_directory'
 
 module Algorithmia
 
