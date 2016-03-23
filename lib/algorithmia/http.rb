@@ -60,8 +60,37 @@ module Algorithmia
     private
 
     def check_for_errors(response)
-      if response.code < 200 || response.code >= 300
-        raise Errors::UnknownError, "Got a #{response.code} from the API"
+      puts response
+      return if response.code >= 200 && response.code < 300
+
+      case
+      when response.code == 401
+        raise Errors::UnauthorizedError.new("The request you are making requires authorization. Please check that you have permissions & that you've set your API key.", response)
+      when response.code == 400
+        parse_error_message(response)
+      when response.code == 404
+        raise Errors::NotFoundError.new("The URI requested is invalid or the resource requested does not exist.", response)
+      when response.code == 500
+        raise Errors::InternalServerError.new("Whoops! Something is broken.", response)
+      else
+        raise Errors::UnknownError.new("The error you encountered returned the message: #{response["error"]["message"]} with stacktrace: #{error["stacktrace"]}", response)
+      end
+    end
+
+    def parse_error_message(response)
+      error = response['error']
+
+      case error["message"]
+      when 'authorization required'
+        raise Errors::ApiKeyInvalidError.new("The API key you sent is invalid! Please set `Algorithmia::Client.api_key` with the key provided with your account.", response)
+      when 'Failed to parse input, input did not parse as valid json'
+        raise Errors::JsonParseError.new("Unable to parse the input. Please make sure it matches the expected input of the algorithm and can be parsed into JSON.", response)
+      else
+        if error["stacktrace"].nil?
+          raise Errors::UnknownError.new("The error you encountered returned the message: #{error["message"]}", response)
+        else
+          raise Errors::UnknownError.new("The error you encountered returned the message: #{error["message"]} with stacktrace: #{error["stacktrace"]}", response)
+        end
       end
     end
 

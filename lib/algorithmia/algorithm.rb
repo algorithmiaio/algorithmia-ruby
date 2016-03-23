@@ -38,24 +38,12 @@ module Algorithmia
       }
 
       response = Algorithmia::Http.new(@client).post(@endpoint, input, query: @query, headers: headers)
-      parse_output(response)
+      Algorithmia::Response.new(response.parsed_response)
     end
 
     def pipe_json(input)
       response = Algorithmia::Http.new(@client).post(@endpoint, input, query: @query, headers: {})
-      parse_output(response)
-    end
-
-    private
-
-    def parse_output(response)
-      result = response.parsed_response
-
-      if result.include?("error")
-        raise Errors.parse_error(result)
-      end
-
-      Algorithmia::Response.new(result)
+      Algorithmia::Response.new(response.parsed_response)
     end
   end
 end
