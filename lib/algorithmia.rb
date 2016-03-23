@@ -1,5 +1,4 @@
 require_relative 'algorithmia/algorithm'
-require_relative 'algorithmia/authentication'
 require_relative 'algorithmia/client'
 require_relative 'algorithmia/errors'
 require_relative 'algorithmia/http'
