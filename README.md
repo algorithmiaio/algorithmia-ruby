@@ -6,6 +6,15 @@ With Algorithmia, you can leverage algorithms written in any language by includi
 
 ## Installation
 
+#### Local Builds:
+
+Because this gem is yet to be released on ruby gems, follow these instructions to build and use it locally:
+
+```bash
+gem build algorithmia.gemspec && gem install algorithmia-0.1.0.gem
+```
+
+#### Regular installation:
 Add this line to your application's Gemfile:
 
 ```ruby
@@ -111,9 +120,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 Bug reports and pull requests are welcome on [GitHub](https://github.com/algorithmiaio/algorithmia-ruby). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## Not Yet Implemented:
-- Interacting with the Algorithmia Data API
-    + DataFile Object
-    + DataDirectory Object
-- Non-authenticated methods on client
+- Some refactoring to be done (see Issues)
+- Ruby-ify some methods
+- Updating the README
 - Tests! :scream:
 
