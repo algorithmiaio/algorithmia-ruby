@@ -4,7 +4,7 @@ module Algorithmia
     def initialize(client, endpoint)
       @client = client
       @endpoint = '/algo/' + endpoint
-      @query_options = {
+      @query = {
         timeout: 300,
         stdout: false,
         output: 'default'
@@ -37,12 +37,12 @@ module Algorithmia
         'Content-Type' => content_type
       }
 
-      response = Algorithmia::Http.new(@client).post(@endpoint, input, options: query_options, headers: headers)
+      response = Algorithmia::Http.new(@client).post(@endpoint, input, query: @query, headers: headers)
       parse_output(response)
     end
 
     def pipe_json(input)
-      response = Algorithmia::Http.new(@client).post(@endpoint, input, options: query_options, headers: {})
+      response = Algorithmia::Http.new(@client).post(@endpoint, input, query: @query, headers: {})
       parse_output(response)
     end
 

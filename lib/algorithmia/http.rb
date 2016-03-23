@@ -8,9 +8,9 @@ module Algorithmia
     def initialize(client)
       @client = client
       @default_headers = {
-        'Authorization': @client.api_key || '',
-        'Content-Type': 'application/json',
-        'User-Agent': 'Algorithmia Ruby Client'
+        'Authorization' => @client.api_key || '',
+        'Content-Type' => 'application/json',
+        'User-Agent' => 'Algorithmia Ruby Client'
       }
     end
 
@@ -23,6 +23,11 @@ module Algorithmia
 
     def post(endpoint, body, query: {}, headers: {})
       headers = merge_headers(headers)
+
+      if headers['Content-Type'] == 'application/json'
+        body = body.to_json
+      end
+
       response = self.class.post(endpoint, body: body, query: query, headers: headers)
       check_for_errors(response)
       response
@@ -30,6 +35,11 @@ module Algorithmia
 
     def put(endpoint, body, query: {}, headers: {})
       headers = merge_headers(headers)
+
+      if headers['Content-Type'] == 'application/json'
+        body = body.to_json
+      end
+
       response = self.class.put(endpoint, body: body, query: query, headers: headers)
       check_for_errors(response)
       response
