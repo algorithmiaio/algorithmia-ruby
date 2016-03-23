@@ -20,7 +20,9 @@ module Algorithmia
     end
 
     def create
-
+      parent, name = File.split(@url)
+      Algorithmia::Http.new(@client).post(parent, name: name)
+      true
     end
 
     def delete(force = false)
@@ -64,7 +66,7 @@ module Algorithmia
     end
 
     def parent
-      @client.dir(Pathname.new(@data_uri).parent.to_s)
+      @client.dir(File.split(@data_uri).first)
     end
 
     private
