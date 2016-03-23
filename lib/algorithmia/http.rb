@@ -14,9 +14,9 @@ module Algorithmia
       }
     end
 
-    def get(endpoint, headers: {})
+    def get(endpoint, query: {}, headers: {})
       headers = merge_headers(headers)
-      response = self.class.get(endpoint, headers: headers)
+      response = self.class.get(endpoint, query: query, headers: headers)
       check_for_errors(response)
       response
     end

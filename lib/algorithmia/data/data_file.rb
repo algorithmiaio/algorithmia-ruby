@@ -5,13 +5,13 @@ module Algorithmia
 
     def initialize(client, data_uri)
       super(client, data_uri)
-      validate_data_uri
+      sanitize_data_uri
     end
 
-    def validate_data_uri
+    def sanitize_data_uri
       # TODO: ensure that the uri passed in starts with data://
       file_path = @data_uri.gsub('data://', '')
-      @url = '/data/' + file_path
+      @url = File.join('/data/', file_path)
     end
 
     def exists?

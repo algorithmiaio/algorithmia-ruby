@@ -5,13 +5,13 @@ module Algorithmia
 
     def initialize(client, data_uri)
       super(client, data_uri)
-      validate_data_uri
+      sanitize_data_uri
     end
 
-    def validate_data_uri
+    def sanitize_data_uri
       # TODO: ensure that the uri passed in starts with data://
       file_path = @data_uri.gsub('data://', '')
-      @url = '/data/' + file_path
+      @url = File.join('/data/', file_path)
     end
 
     def exists?
@@ -27,45 +27,33 @@ module Algorithmia
       Algorithmia::Http.new(@client).delete(@url, query: { force: :true })
     end
 
-    def each
+    def each(&block)
       return enum_for(:each) unless block_given?
 
-      dir = Algorithmia::Http.new(@client).get(@url)
-
-      files = (dir.parsed_response['files'] || []).map do |f|
-        file(f['filename'])
-      end
-
-      dirs = (dir.parsed_response['folders'] || []).map do |f|
-        @client.dir(URI.encode(@data_uri + f['name']))
-      end
-
-      (files + dirs).each do |f|
-        yield f
+      list(block) do |dir|
+        extract_files(dir) + extract_folders(dir)
       end
     end
 
-    def each_file
+
+    def each_file(&block)
       return enum_for(:each_file) unless block_given?
 
-      dir = Algorithmia::Http.new(@client).get(@url)
-      (dir.parsed_response['files'] || []).each do |f|
-        yield file(f['filename'])
+      list(block) do |dir|
+        extract_files(dir)
       end
     end
 
-    def each_dir
+    def each_dir(&block)
       return enum_for(:each_dir) unless block_given?
 
-      dir = Algorithmia::Http.new(@client).get(@url)
-      (dir.parsed_response['folders'] || []).each do |f|
-        yield @client.dir(URI.encode(@data_uri + f['name']))
+      list(block) do |dir|
+        extract_folders(dir)
       end
     end
 
     def file(file_name)
-      # TODO: check if filename has leading slash; if not, add it
-      @client.file(URI.encode(@data_uri + file_name))
+      @client.file(URI.encode(File.join(@data_uri, file_name)))
     end
 
     def put_file(file_path)
@@ -75,6 +63,39 @@ module Algorithmia
 
     def parent
       @client.dir(Pathname.new(@data_uri).parent.to_s)
+    end
+
+    private
+
+    def extract_files(dir)
+      files = dir.parsed_response['files'] || []
+      files.map do |f|
+        file(f['filename'])
+      end
+    end
+
+    def extract_folders(dir)
+      folders = dir.parsed_response['folders'] || []
+      folders.map do |f|
+        @client.dir(URI.encode(File.join(@data_uri, f['name'])))
+      end
+    end
+
+    def list(each_proc)
+      marker = nil
+
+      loop do
+        query = {}
+        query[:marker] = marker if marker
+
+        dir = Algorithmia::Http.new(@client).get(@url, query)
+
+        items = yield dir
+        items.each(&each_proc)
+
+        marker = dir.parsed_response['marker']
+        break unless marker && !marker.empty?
+      end
     end
   end
 end
