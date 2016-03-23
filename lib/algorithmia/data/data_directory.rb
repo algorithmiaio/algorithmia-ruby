@@ -20,12 +20,14 @@ module Algorithmia
     end
 
     def create
+
     end
 
     def delete(force = false)
       query = {}
       query[:force] = true if force
       Algorithmia::Http.new(@client).delete(@url, query: query)
+      true
     end
 
     def each(&block)
@@ -58,8 +60,7 @@ module Algorithmia
     end
 
     def put_file(file_path)
-      file = File.read(file_path)
-      Algorithmia::Http.new(@client).put(@url, file)
+      file(File.basename(file_path)).put(File.read(file_path))
     end
 
     def parent
@@ -89,7 +90,7 @@ module Algorithmia
         query = {}
         query[:marker] = marker if marker
 
-        dir = Algorithmia::Http.new(@client).get(@url, query)
+        dir = Algorithmia::Http.new(@client).get(@url, query: query)
 
         items = yield dir
         items.each(&each_proc)
