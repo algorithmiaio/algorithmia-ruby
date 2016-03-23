@@ -22,9 +22,10 @@ module Algorithmia
     def create
     end
 
-    def delete
-      # TODO: optional force
-      Algorithmia::Http.new(@client).delete(@url, query: { force: :true })
+    def delete(force = false)
+      query = {}
+      query[:force] = true if force
+      Algorithmia::Http.new(@client).delete(@url, query: query)
     end
 
     def each(&block)
