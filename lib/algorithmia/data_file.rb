@@ -50,13 +50,8 @@ module Algorithmia
     end
 
     def delete
-      response = Algorithmia::Http.new(@client).delete(@url)
-      case response["result"]["deleted"]
-      when 1
-        return true
-      else
-        raise Errors::UnknownError, 'Request failed.'
-      end
+      Algorithmia::Http.new(@client).delete(@url)
+      true
     end
 
     def parent

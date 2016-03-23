@@ -60,7 +60,6 @@ module Algorithmia
     private
 
     def check_for_errors(response)
-      puts response
       return if response.code >= 200 && response.code < 300
 
       case

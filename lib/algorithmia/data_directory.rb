@@ -40,7 +40,6 @@ module Algorithmia
       end
     end
 
-
     def each_file(&block)
       return enum_for(:each_file) unless block_given?
 
