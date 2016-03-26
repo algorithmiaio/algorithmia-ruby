@@ -62,14 +62,14 @@ module Algorithmia
     def check_for_errors(response)
       return if response.code >= 200 && response.code < 300
 
-      case
-      when response.code == 401
+      case response.code
+      when 401
         raise Errors::UnauthorizedError.new("The request you are making requires authorization. Please check that you have permissions & that you've set your API key.", response)
-      when response.code == 400
+      when 400
         parse_error_message(response)
-      when response.code == 404
+      when 404
         raise Errors::NotFoundError.new("The URI requested is invalid or the resource requested does not exist.", response)
-      when response.code == 500
+      when 500
         raise Errors::InternalServerError.new("Whoops! Something is broken.", response)
       else
         raise Errors::UnknownError.new("The error you encountered returned the message: #{response["error"]["message"]} with stacktrace: #{error["stacktrace"]}", response)
