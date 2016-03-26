@@ -6,6 +6,8 @@ module Algorithmia
     def exists?
       Algorithmia::Http.new(@client).head(@url)
       true
+    rescue Errors::NotFoundError
+      false
     end
 
     def get_file

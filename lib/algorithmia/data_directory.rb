@@ -6,6 +6,8 @@ module Algorithmia
     def exists?
       Algorithmia::Http.new(@client).get(@url)
       true
+    rescue Errors::NotFoundError
+      false
     end
 
     def create
