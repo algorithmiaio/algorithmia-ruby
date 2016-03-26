@@ -3,17 +3,6 @@ require 'uri'
 module Algorithmia
   class DataDirectory < DataObject
 
-    def initialize(client, data_uri)
-      super(client, data_uri)
-      sanitize_data_uri
-    end
-
-    def sanitize_data_uri
-      # TODO: ensure that the uri passed in starts with data://
-      file_path = @data_uri.gsub('data://', '')
-      @url = File.join('/data/', file_path)
-    end
-
     def exists?
       Algorithmia::Http.new(@client).get(@url)
       true
@@ -62,10 +51,6 @@ module Algorithmia
 
     def put_file(file_path)
       file(File.basename(file_path)).put(File.read(file_path))
-    end
-
-    def parent
-      @client.dir(File.split(@data_uri).first)
     end
 
     private

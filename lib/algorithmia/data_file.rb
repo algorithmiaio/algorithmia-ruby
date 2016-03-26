@@ -3,17 +3,6 @@ require 'tempfile'
 module Algorithmia
   class DataFile < DataObject
 
-    def initialize(client, data_uri)
-      super(client, data_uri)
-      sanitize_data_uri
-    end
-
-    def sanitize_data_uri
-      # TODO: ensure that the uri passed in starts with data://
-      file_path = @data_uri.gsub('data://', '')
-      @url = File.join('/data/', file_path)
-    end
-
     def exists?
       Algorithmia::Http.new(@client).head(@url)
       true
@@ -52,10 +41,6 @@ module Algorithmia
     def delete
       Algorithmia::Http.new(@client).delete(@url)
       true
-    end
-
-    def parent
-      @client.dir(File.dirname(@data_uri))
     end
   end
 end
