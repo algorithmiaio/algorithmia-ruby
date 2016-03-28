@@ -1,5 +1,6 @@
 require_relative 'algorithmia/algorithm'
 require_relative 'algorithmia/client'
+require_relative 'algorithmia/unauthenticated_client'
 require_relative 'algorithmia/errors'
 require_relative 'algorithmia/http'
 require_relative 'algorithmia/response'
@@ -12,15 +13,15 @@ module Algorithmia
 
   class << self
     def algo(endpoint)
-      Algorithmia::Algorithm.new(UnauthenticatedClient.new, endpoint)
+      Algorithmia::UnauthenticatedClient.new.algo(endpoint)
     end
 
     def file(data_uri)
-      Algorithmia::DataFile.new(UnauthenticatedClient.new, data_uri)
+      Algorithmia::UnauthenticatedClient.new.file(data_uri)
     end
 
     def dir(data_uri)
-      Algorithmia::DataDirectory.new(UnauthenticatedClient.new, data_uri)
+      Algorithmia::UnauthenticatedClient.new.dir(data_uri)
     end
 
     def client(api_key)
