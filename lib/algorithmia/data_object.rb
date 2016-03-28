@@ -11,14 +11,15 @@ module Algorithmia
       File.basename(@url)
     end
 
-    def sanitize_data_uri
-      # TODO: ensure that the uri passed in starts with data://
-      file_path = @data_uri.gsub('data://', '')
-      @url = File.join('/data/', file_path)
-    end
-
     def parent
       @client.dir(File.split(@data_uri).first)
+    end
+
+    private
+
+    def sanitize_data_uri
+      file_path = @data_uri.gsub('data://', '')
+      @url = File.join('/data/', file_path)
     end
   end
 end
