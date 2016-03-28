@@ -31,6 +31,7 @@ module Algorithmia
 
     def put(string)
       Algorithmia::Requester.new(@client).put(@url, string)
+      true
     end
 
     alias_method :put_json, :put
@@ -38,6 +39,7 @@ module Algorithmia
     def put_file(file_path)
       file = File.read(file_path)
       Algorithmia::Requester.new(@client).put(@url, file)
+      true
     end
 
     def delete
