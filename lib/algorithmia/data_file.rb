@@ -4,7 +4,7 @@ module Algorithmia
   class DataFile < DataObject
 
     def exists?
-      Algorithmia::Http.new(@client).head(@url)
+      Algorithmia::Requester.new(@client).head(@url)
       true
     rescue Errors::NotFoundError
       false
@@ -22,7 +22,7 @@ module Algorithmia
     end
 
     def get_string
-      Algorithmia::Http.new(@client).get(@url).body
+      Algorithmia::Requester.new(@client).get(@url).body
     end
 
     def get_bytes
@@ -30,18 +30,18 @@ module Algorithmia
     end
 
     def put(string)
-      Algorithmia::Http.new(@client).put(@url, string)
+      Algorithmia::Requester.new(@client).put(@url, string)
     end
 
     alias_method :put_json, :put
 
     def put_file(file_path)
       file = File.read(file_path)
-      Algorithmia::Http.new(@client).put(@url, file)
+      Algorithmia::Requester.new(@client).put(@url, file)
     end
 
     def delete
-      Algorithmia::Http.new(@client).delete(@url)
+      Algorithmia::Requester.new(@client).delete(@url)
       true
     end
   end

@@ -1,7 +1,7 @@
 require 'httparty'
 
 module Algorithmia
-  class Http
+  class Requester
     include HTTParty
     base_uri "https://api.algorithmia.com/v1"
 

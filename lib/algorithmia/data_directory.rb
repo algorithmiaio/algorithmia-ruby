@@ -4,7 +4,7 @@ module Algorithmia
   class DataDirectory < DataObject
 
     def exists?
-      Algorithmia::Http.new(@client).get(@url)
+      Algorithmia::Requester.new(@client).get(@url)
       true
     rescue Errors::NotFoundError
       false
@@ -12,14 +12,14 @@ module Algorithmia
 
     def create
       parent, name = File.split(@url)
-      Algorithmia::Http.new(@client).post(parent, name: name)
+      Algorithmia::Requester.new(@client).post(parent, name: name)
       true
     end
 
     def delete(force = false)
       query = {}
       query[:force] = true if force
-      Algorithmia::Http.new(@client).delete(@url, query: query)
+      Algorithmia::Requester.new(@client).delete(@url, query: query)
       true
     end
 
@@ -78,7 +78,7 @@ module Algorithmia
         query = {}
         query[:marker] = marker if marker
 
-        dir = Algorithmia::Http.new(@client).get(@url, query: query)
+        dir = Algorithmia::Requester.new(@client).get(@url, query: query)
 
         items = yield dir
         items.each(&each_proc)
