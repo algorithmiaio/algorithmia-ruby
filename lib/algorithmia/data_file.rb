@@ -11,7 +11,7 @@ module Algorithmia
     end
 
     def get_file
-      response = get_string
+      response = get
 
       tempfile = Tempfile.open(File.basename(@url)) do |f|
         f.write response
@@ -21,25 +21,30 @@ module Algorithmia
       File.new(tempfile.path)
     end
 
-    def get_string
+    def get
       Algorithmia::Requester.new(@client).get(@url).body
     end
 
-    def get_bytes
-      get_string.bytes
-    end
+    def put(data)
+      content_type = case
+        when data.kind_of?(String) && data.encoding == Encoding::ASCII_8BIT
+          'application/octet-stream'
+        when data.kind_of?(String)
+          'text/plain'
+        else
+          'application/json'
+      end
 
-    def put(string)
-      Algorithmia::Requester.new(@client).put(@url, string)
+      headers = {'Content-Type' => content_type }
+      Algorithmia::Requester.new(@client).put(@url, data, headers: headers)
       true
     end
 
     alias_method :put_json, :put
 
     def put_file(file_path)
-      file = File.read(file_path)
-      Algorithmia::Requester.new(@client).put(@url, file)
-      true
+      data = File.binread(file_path)
+      put(data)
     end
 
     def delete

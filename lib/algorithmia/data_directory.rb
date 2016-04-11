@@ -52,7 +52,7 @@ module Algorithmia
     end
 
     def put_file(file_path)
-      file(File.basename(file_path)).put(File.read(file_path))
+      file(File.basename(file_path)).put_file(file_path)
     end
 
     private

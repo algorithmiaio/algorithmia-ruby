@@ -112,7 +112,7 @@ The client also allows you to work with the Algorithmia Data API. You can manage
 #### DataFiles
 
 ```ruby
-file = @client.file('data://test_user/test/sample_file.txt')
+file = client.file('data://test_user/test/sample_file.txt')
  => #<Algorithmia::DataFile:0x007ffbaa8747d8 @client=#<Algorithmia::Client:0x007ffbab0fc798 @api_key="YOUR_API_KEY">, @data_uri="data://test_user/test/sample_file.txt", @url="/data/test_user/test/sample_file.txt">
 
 file.put_file('/path/to/local/file/sample_file.txt')
@@ -129,11 +129,8 @@ file.put("This is the contents of the file.")
 file.get_file
 # => #<File:/var/folders/yl/vv6ws5196cvb61xzwrg8l3vm0000gp/T/test.txt20160328-94761-i8cqxg>
 
-file.get_string
+file.get
 # => "This is the contents of the file."
-
-file.get_bytes
-#=> [34, 84, 104, 105, 115, 32, 105, 115, 32, 116, 104, 101, 32, 99, 111, 110, 116, 101, 110, 116, 115, 32, 111, 102, 32, 116, 104, 101, 32, 102, 105, 108, 101, 46, 34]
 
 file.delete
 # => true
@@ -143,8 +140,12 @@ file.delete
 
 ```ruby
 # Create a DataDirectory object
-dir = @client.dir('data://test_user/test')
+dir = client.dir('data://test_user/test')
 # => #<Algorithmia::DataDirectory:0x007ffbab0fc748 @client=#<Algorithmia::Client:0x007ffbab0fc798 @api_key="YOUR_API_KEY">, @data_uri="data://test_user/test", @url="/data/test_user/test">
+
+# Create a new directory
+dir.create
+# => true
 
 dir.exists?
 # => true
@@ -155,11 +156,6 @@ dir.parent
 
 # Delete the directory
 dir.delete
-# => true
-
-# Create a new directory
-dir = @client.dir('data://test_user/test_two')
-dir.create
 # => true
 ```
 
