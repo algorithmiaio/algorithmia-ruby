@@ -56,4 +56,23 @@ describe Algorithmia::DataDirectory do
     expect(dir.exists?).to be false
   end
 
+  it 'can list directory' do
+    dir = nonexistent_dir
+    expect(dir.create).to be true
+
+    files = dir.each_file.map { |f| f.data_uri }
+    expect(files.length).to eq(0)
+
+    dir.file("foo").put("testdata")
+    files = dir.each_file.map { |f| f.data_uri }
+    expect(files.length).to eq(1)
+
+    dir.file("bar").put("testdata")
+    files = dir.each_file.map { |f| f.data_uri }
+    expect(files.length).to eq(2)
+    dir.each_file { |f|
+        expect(f.get).to eq("testdata")
+    }
+  end
+
 end
