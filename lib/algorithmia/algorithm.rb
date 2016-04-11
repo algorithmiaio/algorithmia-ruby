@@ -3,7 +3,7 @@ module Algorithmia
 
     def initialize(client, endpoint)
       @client = client
-      @endpoint = '/algo/' + endpoint
+      @endpoint = '/v1/algo/' + endpoint
       @query = {
         timeout: 300,
         stdout: false,
@@ -25,7 +25,7 @@ module Algorithmia
 
     def pipe(input)
       content_type = case
-        when input.kind_of?(String) && input.encoding == 'ASCII-8BIT'
+        when input.kind_of?(String) && input.encoding == Encoding::ASCII_8BIT
           'application/octet-stream'
         when input.kind_of?(String)
           'text/plain'

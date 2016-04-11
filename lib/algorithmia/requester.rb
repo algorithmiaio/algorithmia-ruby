@@ -3,7 +3,7 @@ require 'httparty'
 module Algorithmia
   class Requester
     include HTTParty
-    base_uri "https://api.algorithmia.com/v1"
+    base_uri "https://api.algorithmia.com"
 
     def initialize(client)
       @client = client
@@ -60,7 +60,11 @@ module Algorithmia
     private
 
     def check_for_errors(response)
-      return if response.code >= 200 && response.code < 300
+      if response.code >= 200 && response.code < 300
+        parse_error_message(response) if response['error']
+        return
+      end
+
 
       case response.code
       when 401

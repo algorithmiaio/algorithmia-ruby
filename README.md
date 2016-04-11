@@ -78,7 +78,7 @@ result = algorithm.pipe('HAL 9000')
 
 ### Algorithm Responses
 
-When a successful response from the algorithm is returned, a new Algorithmia::Response object is created. 
+When a successful response from the algorithm is returned, a new Algorithmia::Response object is created.
 
 ``` ruby
 # Call an algorithm
@@ -87,7 +87,7 @@ puts algorithm_response
 # => #<Algorithmia::Response:0x007f9fc2845850 @json={:result=>0.14970585904042558, :metadata=>{:content_type=>"json", :duration=>0.0006857780000000001}}>
 
 # Get the raw json returned from the API
-puts algorithm_response.raw_json
+puts algorithm_response.json
 # => {:result=>0.14970585904042558, :metadata=>{:content_type=>"json", :duration=>0.0006857780000000001}}
 
 # Use any one of the following helper methods to understand the response
@@ -113,7 +113,7 @@ The client also allows you to work with the Algorithmia Data API. You can manage
 
 ```ruby
 file = @client.file('data://test_user/test/sample_file.txt')
- => #<Algorithmia::DataFile:0x007ffbaa8747d8 @client=#<Algorithmia::Client:0x007ffbab0fc798 @api_key="YOUR_API_KEY">, @data_uri="data://test_user/test/sample_file.txt", @url="/data/test_user/test/sample_file.txt"> 
+ => #<Algorithmia::DataFile:0x007ffbaa8747d8 @client=#<Algorithmia::Client:0x007ffbab0fc798 @api_key="YOUR_API_KEY">, @data_uri="data://test_user/test/sample_file.txt", @url="/data/test_user/test/sample_file.txt">
 
 file.put_file('/path/to/local/file/sample_file.txt')
 # => true
@@ -127,13 +127,13 @@ file.put("This is the contents of the file.")
 
 # Get the file and write to a local file
 file.get_file
-# => #<File:/var/folders/yl/vv6ws5196cvb61xzwrg8l3vm0000gp/T/test.txt20160328-94761-i8cqxg> 
+# => #<File:/var/folders/yl/vv6ws5196cvb61xzwrg8l3vm0000gp/T/test.txt20160328-94761-i8cqxg>
 
 file.get_string
 # => "This is the contents of the file."
 
-file.get_bytes 
-#=> [34, 84, 104, 105, 115, 32, 105, 115, 32, 116, 104, 101, 32, 99, 111, 110, 116, 101, 110, 116, 115, 32, 111, 102, 32, 116, 104, 101, 32, 102, 105, 108, 101, 46, 34] 
+file.get_bytes
+#=> [34, 84, 104, 105, 115, 32, 105, 115, 32, 116, 104, 101, 32, 99, 111, 110, 116, 101, 110, 116, 115, 32, 111, 102, 32, 116, 104, 101, 32, 102, 105, 108, 101, 46, 34]
 
 file.delete
 # => true
@@ -144,14 +144,14 @@ file.delete
 ```ruby
 # Create a DataDirectory object
 dir = @client.dir('data://test_user/test')
-# => #<Algorithmia::DataDirectory:0x007ffbab0fc748 @client=#<Algorithmia::Client:0x007ffbab0fc798 @api_key="YOUR_API_KEY">, @data_uri="data://test_user/test", @url="/data/test_user/test"> 
+# => #<Algorithmia::DataDirectory:0x007ffbab0fc748 @client=#<Algorithmia::Client:0x007ffbab0fc798 @api_key="YOUR_API_KEY">, @data_uri="data://test_user/test", @url="/data/test_user/test">
 
 dir.exists?
 # => true
 
 # Get a new DataDirectory object for the parent directory
 dir.parent
-# => #<Algorithmia::DataDirectory:0x007ffba924e148 @client=#<Algorithmia::Client:0x007ffbab0fc798 @api_key="YOUR_API_KEY">, @data_uri="data://test_user", @url="/data/test_user"> 
+# => #<Algorithmia::DataDirectory:0x007ffba924e148 @client=#<Algorithmia::Client:0x007ffbab0fc798 @api_key="YOUR_API_KEY">, @data_uri="data://test_user", @url="/data/test_user">
 
 # Delete the directory
 dir.delete
@@ -172,7 +172,7 @@ You can iterate over all contents in a directory, only the sub-directories, or t
 dir.each
 dir.each_directory
 dir.each_file
-#  => #<Enumerator: #<Algorithmia::DataDirectory:0x007ffba89bbcd8 @client=#<Algorithmia::Client:0x007ffbab0fc798 @api_key="YOUR_API_KEY">, @data_uri="data://test_user/test_two", @url="/data/test_user/test_two">:each> 
+#  => #<Enumerator: #<Algorithmia::DataDirectory:0x007ffba89bbcd8 @client=#<Algorithmia::Client:0x007ffbab0fc798 @api_key="YOUR_API_KEY">, @data_uri="data://test_user/test_two", @url="/data/test_user/test_two">:each>
 
 # Iterate all directory contents, each sub-directory, or each file in the directory
 dir.each { |item| block }

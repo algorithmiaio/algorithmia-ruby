@@ -19,7 +19,7 @@ module Algorithmia
 
     def sanitize_data_uri
       file_path = @data_uri.gsub('data://', '')
-      @url = File.join('/data/', file_path)
+      @url = File.join('/v1/data/', file_path)
     end
   end
 end

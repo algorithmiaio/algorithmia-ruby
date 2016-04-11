@@ -1,12 +1,19 @@
+require "base64"
+
 module Algorithmia
   class Response
+    attr_reader :json
+
     def initialize(result)
       @json = result
     end
 
     def result
-      # successful result hash from the algorithm
-      @json["result"]
+      if content_type == 'binary'
+        Base64.decode64(@json["result"])
+      else
+        @json["result"]
+      end
     end
 
     def metadata
