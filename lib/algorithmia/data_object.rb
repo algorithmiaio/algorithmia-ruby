@@ -1,5 +1,6 @@
 module Algorithmia
   class DataObject
+    attr_reader :data_uri
 
     def initialize(client, data_uri)
       @client = client
