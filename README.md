@@ -5,16 +5,6 @@ The Algorithmia Ruby client is a wrapper for making calls to the Algorithmia API
 With Algorithmia, you can leverage algorithms written in any language by including them in your Ruby project with a simple API call! Browse the collection of algorithms available on [Algorithmia.com](http://algorithmia.com).
 
 ## Installation
-
-#### Local Builds:
-
-Because this gem is yet to be released on ruby gems, follow these instructions to build and use it locally:
-
-```bash
-gem build algorithmia.gemspec && gem install algorithmia-0.1.0.gem
-```
-
-#### Regular installation:
 Add this line to your application's Gemfile:
 
 ```ruby
