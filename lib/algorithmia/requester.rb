@@ -8,10 +8,12 @@ module Algorithmia
       self.class.base_uri client.api_address
       @client = client
       @default_headers = {
-        'Authorization' => @client.api_key || '',
         'Content-Type' => 'application/json',
         'User-Agent' => 'Algorithmia Ruby Client'
       }
+      unless @client.api_key.nil?
+        @default_headers['Authorization'] = @client.api_key
+      end
     end
 
     def get(endpoint, query: {}, headers: {})
