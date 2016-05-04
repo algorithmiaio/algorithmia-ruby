@@ -3,9 +3,9 @@ require 'httparty'
 module Algorithmia
   class Requester
     include HTTParty
-    base_uri "https://api.algorithmia.com"
 
     def initialize(client)
+      self.class.base_uri client.api_address
       @client = client
       @default_headers = {
         'Authorization' => @client.api_key || '',
