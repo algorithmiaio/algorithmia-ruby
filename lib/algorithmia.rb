@@ -24,7 +24,7 @@ module Algorithmia
       Algorithmia::UnauthenticatedClient.new.dir(data_uri)
     end
 
-    def client(api_key)
+    def client(api_key=nil)
       Algorithmia::Client.new(api_key)
     end
   end
