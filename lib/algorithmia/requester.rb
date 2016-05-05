@@ -18,6 +18,7 @@ module Algorithmia
 
     def get(endpoint, query: {}, headers: {})
       headers = merge_headers(headers)
+      headers.delete('Content-Type')   # No content, can break request parsing
       response = self.class.get(endpoint, query: query, headers: headers)
       check_for_errors(response)
       response
@@ -48,7 +49,9 @@ module Algorithmia
     end
 
     def head(endpoint)
-      response = self.class.head(endpoint, headers: @default_headers)
+      headers = merge_headers({})
+      headers.delete('Content-Type')   # No content, can break request parsing
+      response = self.class.head(endpoint, headers: headers)
       check_for_errors(response)
       response
     end
