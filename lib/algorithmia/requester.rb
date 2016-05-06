@@ -73,15 +73,15 @@ module Algorithmia
 
       case response.code
       when 401
-        raise Errors::UnauthorizedError.new("The request you are making requires authorization. Please check that you have permissions & that you've set your API key.", response)
+        raise Errors::UnauthorizedError.new(response["error"]["message"], response)
       when 400
         parse_error_message(response)
       when 404
-        raise Errors::NotFoundError.new("The URI requested is invalid or the resource requested does not exist.", response)
+        raise Errors::NotFoundError.new(response["error"]["message"], response)
       when 500
-        raise Errors::InternalServerError.new("Whoops! Something is broken.", response)
+        raise Errors::InternalServerError.new(response["error"]["message"], response)
       else
-        raise Errors::UnknownError.new("The error you encountered returned the message: #{response["error"]["message"]} with stacktrace: #{error["stacktrace"]}", response)
+        raise Errors::UnknownError.new("message: #{response["error"]["message"]} stacktrace: #{error["stacktrace"]}", response)
       end
     end
 
@@ -95,9 +95,9 @@ module Algorithmia
         raise Errors::JsonParseError.new("Unable to parse the input. Please make sure it matches the expected input of the algorithm and can be parsed into JSON.", response)
       else
         if error["stacktrace"].nil?
-          raise Errors::UnknownError.new("The error you encountered returned the message: #{error["message"]}", response)
+          raise Errors::UnknownError.new(error["message"], response)
         else
-          raise Errors::UnknownError.new("The error you encountered returned the message: #{error["message"]} with stacktrace: #{error["stacktrace"]}", response)
+          raise Errors::UnknownError.new("message: #{error["message"]} stacktrace: #{error["stacktrace"]}", response)
         end
       end
     end
