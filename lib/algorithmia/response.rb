@@ -2,38 +2,61 @@ require "base64"
 
 module Algorithmia
   class Response
-    attr_reader :json
+    attr_reader :response
 
-    def initialize(result)
-      @json = result
+    def initialize(response, output_type)
+      @response = response
+      @output_type = output_type
     end
 
     def result
-      if content_type == 'binary'
-        Base64.decode64(@json["result"])
+      if @output_type == 'raw'
+        @response
+      elsif content_type == 'binary'
+        Base64.decode64(@response["result"])
       else
-        @json["result"]
+        @response["result"]
       end
     end
 
     def metadata
-      @json["metadata"]
+      if @output_type == 'raw'
+        nil
+      else
+        @response["metadata"]
+      end
     end
 
     def duration
-      metadata["duration"]
+      if @output_type == 'raw'
+        nil
+      else
+        metadata["duration"]
+      end
     end
 
     def content_type
-      metadata["content_type"]
+      if @output_type == 'raw'
+        nil
+      else
+        metadata["content_type"]
+      end
     end
 
     def stdout
-      metadata["stdout"]
+      if @output_type == 'raw'
+        nil
+      else
+        metadata["stdout"]
+      end
     end
 
     def alerts
-      metadata["alerts"]
+      if @output_type == 'raw'
+        nil
+      else
+        metadata["alerts"]
+      end
     end
   end
 end

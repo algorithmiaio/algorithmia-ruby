@@ -38,7 +38,7 @@ module Algorithmia
       }
 
       response = Algorithmia::Requester.new(@client).post(@endpoint, input, query: @query, headers: headers)
-      Algorithmia::Response.new(response.parsed_response)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
     end
 
     def pipe_json(input)
