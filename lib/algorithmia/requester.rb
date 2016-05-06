@@ -66,7 +66,9 @@ module Algorithmia
 
     def check_for_errors(response)
       if response.code >= 200 && response.code < 300
-        parse_error_message(response) if response['error']
+        if response.is_a?(Hash) and response['error']
+          parse_error_message(response) if response['error']
+        end
         return
       end
 
