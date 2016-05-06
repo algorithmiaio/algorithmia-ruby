@@ -75,14 +75,29 @@ module Algorithmia
 
       case response.code
       when 401
+        if response.nil?
+          raise Errors::UnauthorizedError.new("The request you are making requires authorization. Please check that you have permissions & that you've set your API key.", nil)
+        end
         raise Errors::UnauthorizedError.new(response["error"]["message"], response)
       when 400
+        if response.nil?
+          raise Errors::NotFoundError.new("The request was invalid", nil)
+        end
         parse_error_message(response)
       when 404
+        if response.nil?
+          raise Errors::NotFoundError.new("The URI requested is invalid or the resource requested does not exist.", nil)
+        end
         raise Errors::NotFoundError.new(response["error"]["message"], response)
       when 500
+        if response.nil?
+          raise Errors::InternalServerError.new("Whoops! Something is broken.", nil)
+        end
         raise Errors::InternalServerError.new(response["error"]["message"], response)
       else
+        if response.nil?
+          raise Errors::UnknownError.new("An unknown error occurred", nil)
+        end
         raise Errors::UnknownError.new("message: #{response["error"]["message"]} stacktrace: #{error["stacktrace"]}", response)
       end
     end
