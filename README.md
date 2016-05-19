@@ -50,7 +50,7 @@ algorithm = client.algo('demo/Hello/0.1.1')
 # => #<Algorithmia::Algorithm:0x007f80ea092fc8 @client=Algorithmia::Client, @endpoint="demo/Hello/0.1.1", @query_options={:timeout=>300, :stdout=>false, :output=>"default"}>
 
 # Pass in a hash of options to override the default query parameters
-algorithm.set_options({'timeout': 500})
+algorithm.set_options(timeout: 500)
 # => {:timeout=>500, :stdout=>false, :output=>"default"}
 
 # Use these helper methods to enable stdout or change the timeout value
