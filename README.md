@@ -7,23 +7,7 @@ With Algorithmia, you can leverage algorithms written in any language by includi
 ## Getting started
 
 The Algorithmia ruby client is [available on rubygems](https://rubygems.org/gems/algorithmia).
-Simply add this line to your application's Gemfile:
-
-```ruby
-gem 'algorithmia'
-```
-
-And then execute:
-
-```bash
-$ bundle
-```
-
-Or install it yourself as:
-
-```bash
-$ gem install algorithmia
-```
+Simply add `gem 'algorithmia'` to your application's Gemfile and run `bundle install`.
 
 Then create an Algorithmia client and authenticate with your API key:
 
