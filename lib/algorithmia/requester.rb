@@ -18,6 +18,7 @@ module Algorithmia
 
     def get(endpoint, query: {}, headers: {})
       headers = merge_headers(headers)
+      headers.delete('Content-Type')   # No content, can break request parsing
       response = self.class.get(endpoint, query: query, headers: headers)
       check_for_errors(response)
       response
@@ -48,7 +49,9 @@ module Algorithmia
     end
 
     def head(endpoint)
-      response = self.class.head(endpoint, headers: @default_headers)
+      headers = merge_headers({})
+      headers.delete('Content-Type')   # No content, can break request parsing
+      response = self.class.head(endpoint, headers: headers)
       check_for_errors(response)
       response
     end
@@ -63,22 +66,39 @@ module Algorithmia
 
     def check_for_errors(response)
       if response.code >= 200 && response.code < 300
-        parse_error_message(response) if response['error']
+        if response.is_a?(Hash) and response['error']
+          parse_error_message(response) if response['error']
+        end
         return
       end
 
 
       case response.code
       when 401
-        raise Errors::UnauthorizedError.new("The request you are making requires authorization. Please check that you have permissions & that you've set your API key.", response)
+        if response.nil?
+          raise Errors::UnauthorizedError.new("The request you are making requires authorization. Please check that you have permissions & that you've set your API key.", nil)
+        end
+        raise Errors::UnauthorizedError.new(response["error"]["message"], response)
       when 400
+        if response.nil?
+          raise Errors::NotFoundError.new("The request was invalid", nil)
+        end
         parse_error_message(response)
       when 404
-        raise Errors::NotFoundError.new("The URI requested is invalid or the resource requested does not exist.", response)
+        if response.nil?
+          raise Errors::NotFoundError.new("The URI requested is invalid or the resource requested does not exist.", nil)
+        end
+        raise Errors::NotFoundError.new(response["error"]["message"], response)
       when 500
-        raise Errors::InternalServerError.new("Whoops! Something is broken.", response)
+        if response.nil?
+          raise Errors::InternalServerError.new("Whoops! Something is broken.", nil)
+        end
+        raise Errors::InternalServerError.new(response["error"]["message"], response)
       else
-        raise Errors::UnknownError.new("The error you encountered returned the message: #{response["error"]["message"]} with stacktrace: #{error["stacktrace"]}", response)
+        if response.nil?
+          raise Errors::UnknownError.new("An unknown error occurred", nil)
+        end
+        raise Errors::UnknownError.new("message: #{response["error"]["message"]} stacktrace: #{error["stacktrace"]}", response)
       end
     end
 
@@ -92,9 +112,9 @@ module Algorithmia
         raise Errors::JsonParseError.new("Unable to parse the input. Please make sure it matches the expected input of the algorithm and can be parsed into JSON.", response)
       else
         if error["stacktrace"].nil?
-          raise Errors::UnknownError.new("The error you encountered returned the message: #{error["message"]}", response)
+          raise Errors::UnknownError.new(error["message"], response)
         else
-          raise Errors::UnknownError.new("The error you encountered returned the message: #{error["message"]} with stacktrace: #{error["stacktrace"]}", response)
+          raise Errors::UnknownError.new("message: #{error["message"]} stacktrace: #{error["stacktrace"]}", response)
         end
       end
     end

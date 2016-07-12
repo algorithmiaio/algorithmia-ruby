@@ -12,15 +12,15 @@ module Algorithmia
     end
 
     def set_options(options_hash)
-      @query_options.update(options_hash)
+      @query.update(options_hash)
     end
 
     def set_timeout(timeout)
-      @query_options[:timeout] = timeout.to_i
+      @query[:timeout] = timeout.to_i
     end
 
     def enable_stdout
-      @query_options[:stdout] = true
+      @query[:stdout] = true
     end
 
     def pipe(input)
@@ -38,7 +38,7 @@ module Algorithmia
       }
 
       response = Algorithmia::Requester.new(@client).post(@endpoint, input, query: @query, headers: headers)
-      Algorithmia::Response.new(response.parsed_response)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
     end
 
     def pipe_json(input)
