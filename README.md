@@ -12,7 +12,7 @@ Simply add `gem 'algorithmia'` to your application's Gemfile and run `bundle ins
 Then create an Algorithmia client and authenticate with your API key:
 
 ```ruby
-require algorithmia
+require 'algorithmia'
 
 client = Algorithmia.client('YOUR_API_KEY')
 ```
