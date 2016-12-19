@@ -24,14 +24,14 @@ module Algorithmia
       response
     end
 
-    def post(endpoint, body, query: {}, headers: {})
+    def post(endpoint, body, query: {}, headers: {}, timeout: 60)
       headers = merge_headers(headers)
 
       if headers['Content-Type'] == 'application/json'
         body = body.to_json
       end
 
-      response = self.class.post(endpoint, body: body, query: query, headers: headers)
+      response = self.class.post(endpoint, body: body, query: query, headers: headers, timeout: timeout)
       check_for_errors(response)
       response
     end

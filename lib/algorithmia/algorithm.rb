@@ -37,12 +37,14 @@ module Algorithmia
         'Content-Type' => content_type
       }
 
-      response = Algorithmia::Requester.new(@client).post(@endpoint, input, query: @query, headers: headers)
+      client_timeout = (@query[:timeout] || 300) + 10
+      response = Algorithmia::Requester.new(@client).post(@endpoint, input, query: @query, headers: headers, timeout: client_timeout)
       Algorithmia::Response.new(response.parsed_response, @query[:output])
     end
 
     def pipe_json(input)
-      response = Algorithmia::Requester.new(@client).post(@endpoint, input, query: @query, headers: {})
+      client_timeout = (@query[:timeout] || 300) + 10
+      response = Algorithmia::Requester.new(@client).post(@endpoint, input, query: @query, headers: {}, timeout: client_timeout)
       Algorithmia::Response.new(response.parsed_response)
     end
   end
