@@ -19,14 +19,6 @@ module Algorithmia
       end
     end
 
-    def error
-      if @output_type == 'raw'
-        nil
-      else
-        @response["error"]
-      end
-    end
-
     def metadata
       if @output_type == 'raw'
         nil

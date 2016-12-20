@@ -70,15 +70,11 @@ result = client.algo("opencv/SmartThumbnail/0.1").pipe(input).result
 
 ### Error handling
 
-API errors and Algorithm exceptions will be returned as part of the algorithm response object. You can check for errors, and access the error message from the response:
+API errors and Algorithm exceptions will be raised when calling `pipe`:
 
 ```ruby
-response = client.algo('util/whoopsWrongAlgo').pipe('Hello, world!')
-if response.error
-	puts "Error: " + response.error
-else
-	puts "Success: " + response.result
-end
+client.algo('util/whoopsWrongAlgo').pipe('Hello, world!')
+# -> Algorithmia::Errors::NotFoundError: algorithm algo://util/whoopsWrongAlgo not found
 ```
 
 ### Request options
