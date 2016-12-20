@@ -27,4 +27,9 @@ describe Algorithmia::Algorithm do
     expect(Digest::SHA256.hexdigest(response.result)).to eq(expected_sha)
   end
 
+  it 'can set timeout' do
+    algo = test_client.algo("kenny/sleep").set(timeout: 1)
+    expect{ algo.pipe(2) }.to raise_error(Algorithmia::Errors::AlgorithmError)
+  end
+
 end

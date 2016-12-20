@@ -43,7 +43,7 @@ describe Algorithmia::DataDirectory do
     expect(dir.create).to be true
 
     dir.put_file(__dir__+'/data/foo')
-    expect{dir.delete}.to raise_error(Algorithmia::Errors::UnknownError)
+    expect{dir.delete}.to raise_error(Algorithmia::Errors::ApiError)
     expect(dir.exists?).to be true
   end
 

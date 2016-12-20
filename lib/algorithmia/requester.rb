@@ -67,55 +67,27 @@ module Algorithmia
     def check_for_errors(response)
       if response.code >= 200 && response.code < 300
         if response.is_a?(Hash) and response['error']
-          parse_error_message(response) if response['error']
+          error = response['error']
+          raise Errors::AlgorithmError.new(error["message"], response, error["stacktrace"])
         end
         return
       end
 
+      message = response.dig("error", "message") if response.is_a?(Hash)
 
       case response.code
       when 401
-        if response.nil?
-          raise Errors::UnauthorizedError.new("The request you are making requires authorization. Please check that you have permissions & that you've set your API key.", nil)
-        end
-        raise Errors::UnauthorizedError.new(response["error"]["message"], response)
-      when 400
-        if response.nil?
-          raise Errors::NotFoundError.new("The request was invalid", nil)
-        end
-        parse_error_message(response)
+        message ||= "The request you are making requires authorization. Please check that you have permissions & that you've set your API key."
+        raise Errors::UnauthorizedError.new(message, response)
       when 404
-        if response.nil?
-          raise Errors::NotFoundError.new("The URI requested is invalid or the resource requested does not exist.", nil)
-        end
-        raise Errors::NotFoundError.new(response["error"]["message"], response)
-      when 500
-        if response.nil?
-          raise Errors::InternalServerError.new("Whoops! Something is broken.", nil)
-        end
-        raise Errors::InternalServerError.new(response["error"]["message"], response)
+        message ||= "The URI requested is invalid or the resource requested does not exist."
+        raise Errors::NotFoundError.new(message, response)
+      when 500..599
+        message ||= "Whoops! Something is broken."
+        raise Errors::InternalServerError.new(message, response)
       else
-        if response.nil?
-          raise Errors::UnknownError.new("An unknown error occurred", nil)
-        end
-        raise Errors::UnknownError.new("message: #{response["error"]["message"]} stacktrace: #{error["stacktrace"]}", response)
-      end
-    end
-
-    def parse_error_message(response)
-      error = response['error']
-
-      case error["message"]
-      when 'authorization required'
-        raise Errors::ApiKeyInvalidError.new("The API key you sent is invalid! Please set `Algorithmia::Client.api_key` with the key provided with your account.", response)
-      when 'Failed to parse input, input did not parse as valid json'
-        raise Errors::JsonParseError.new("Unable to parse the input. Please make sure it matches the expected input of the algorithm and can be parsed into JSON.", response)
-      else
-        if error["stacktrace"].nil?
-          raise Errors::UnknownError.new(error["message"], response)
-        else
-          raise Errors::UnknownError.new("message: #{error["message"]} stacktrace: #{error["stacktrace"]}", response)
-        end
+        message ||= "#{response.code} - an unknown error occurred"
+        raise Errors::ApiError.new(message, response)
       end
     end
 
