@@ -87,12 +87,12 @@ The client exposes options that can configure algorithm requests.
 This includes support for changing the timeout or indicating that the API should include stdout in the response.
 
 ```ruby
-algo = client.algo('demo/Hello/0.1.1').set_timeout(10).enable_stdout
+algo = client.algo('demo/Hello/0.1.1').set(timeout: 10, stdout: true)
 response = algo.pipe('HAL 9000')
 stdout = response.stdout
 ```
 
-Note: `enable_stdout` is ignored if you do not have access to the algorithm source.
+Note: `stdout: true` is ignored if you do not have access to the algorithm source.
 
 
 ## Working with data

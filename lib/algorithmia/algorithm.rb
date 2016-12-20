@@ -4,23 +4,12 @@ module Algorithmia
     def initialize(client, endpoint)
       @client = client
       @endpoint = '/v1/algo/' + endpoint
-      @query = {
-        timeout: 300,
-        stdout: false,
-        output: 'default'
-      }
+      @query = {}
     end
 
-    def set_options(options_hash)
+    def set(options_hash)
       @query.update(options_hash)
-    end
-
-    def set_timeout(timeout)
-      @query[:timeout] = timeout.to_i
-    end
-
-    def enable_stdout
-      @query[:stdout] = true
+      self
     end
 
     def pipe(input)
