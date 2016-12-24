@@ -8,7 +8,6 @@ module Algorithmia
       self.class.base_uri client.api_address
       @client = client
       @default_headers = {
-        'Content-Type' => 'application/json',
         'User-Agent' => 'Algorithmia Ruby Client'
       }
       unless @client.api_key.nil?
@@ -27,8 +26,14 @@ module Algorithmia
     def post(endpoint, body, query: {}, headers: {}, timeout: 60)
       headers = merge_headers(headers)
 
-      if headers['Content-Type'] == 'application/json'
-        body = body.to_json
+      headers['Content-Type'] ||= case
+        when body.kind_of?(String) && body.encoding == Encoding::ASCII_8BIT
+          'application/octet-stream'
+        when body.kind_of?(String)
+          'text/plain'
+        else
+          body = body.to_json
+          'application/json'
       end
 
       response = self.class.post(endpoint, body: body, query: query, headers: headers, timeout: timeout)
@@ -39,8 +44,14 @@ module Algorithmia
     def put(endpoint, body, query: {}, headers: {})
       headers = merge_headers(headers)
 
-      if headers['Content-Type'] == 'application/json'
-        body = body.to_json
+      headers['Content-Type'] ||= case
+        when body.kind_of?(String) && body.encoding == Encoding::ASCII_8BIT
+          'application/octet-stream'
+        when body.kind_of?(String)
+          'text/plain'
+        else
+          body = body.to_json
+          'application/json'
       end
 
       response = self.class.put(endpoint, body: body, query: query, headers: headers)

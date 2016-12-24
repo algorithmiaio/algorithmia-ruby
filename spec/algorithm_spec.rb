@@ -3,10 +3,17 @@ require 'digest'
 
 describe Algorithmia::Algorithm do
   it 'can make json api call' do
-    input = 5
-    response = test_client.algo("docs/JavaAddOne").pipe(input)
+    input = ["transformer", "terraforms", "retransform"]
+    response = test_client.algo("WebPredict/ListAnagrams/0.1.0").pipe(input)
     expect(response.content_type).to eq('json')
-    expect(response.result).to eq(6)
+    expect(response.result).to eq(["transformer","retransform"])
+  end
+
+  it 'can make raw json api call' do
+    input = ["transformer", "terraforms", "retransform"].to_json
+    response = test_client.algo("WebPredict/ListAnagrams/0.1.0").pipe_json(input)
+    expect(response.content_type).to eq('json')
+    expect(response.result).to eq(["transformer","retransform"])
   end
 
   it 'can make text api call' do

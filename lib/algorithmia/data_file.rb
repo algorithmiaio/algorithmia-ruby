@@ -26,18 +26,7 @@ module Algorithmia
     end
 
     def put(data)
-      content_type = case
-        when data.kind_of?(String) && data.encoding == Encoding::ASCII_8BIT
-          'application/octet-stream'
-        when data.kind_of?(String)
-          'text/plain'
-        else
-          'application/json'
-      end
-
-      headers = {'Content-Type' => content_type }
-      Algorithmia::Requester.new(@client).put(@url, data, headers: headers)
-      true
+      Algorithmia::Requester.new(@client).put(@url, data, headers: {})
     end
 
     alias_method :put_json, :put
