@@ -77,6 +77,20 @@ client.algo('util/whoopsWrongAlgo').pipe('Hello, world!')
 # -> Algorithmia::Errors::NotFoundError: algorithm algo://util/whoopsWrongAlgo not found
 ```
 
+And you can rescue Algorithm errors separate from other errors:
+
+```ruby
+begin
+  client.algo('demo/Hello').pipe('world!')
+rescue Algorithmia::Errors::AlgorithmError => e
+  puts "Algorithm Error: #{e.message}"
+  puts e.stacktrace
+rescue => e
+  puts "Error: #{e.message}"
+end
+
+```
+
 ### Request options
 
 The client exposes options that can configure algorithm requests.
