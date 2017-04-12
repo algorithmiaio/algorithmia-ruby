@@ -77,7 +77,7 @@ module Algorithmia
 
     def check_for_errors(response)
       if response.code >= 200 && response.code < 300
-        if response.is_a?(Hash) and response['error']
+        if response.respond_to?(:has_key?) and response['error']
           error = response['error']
           raise Errors::AlgorithmError.new(error["message"], response, error["stacktrace"])
         end
