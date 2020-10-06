@@ -1,4 +1,4 @@
-require 'uri'
+require 'cgi'
 
 module Algorithmia
   class DataDirectory < DataObject
@@ -12,7 +12,7 @@ module Algorithmia
 
     def create
       parent, name = File.split(@url)
-      Algorithmia::Requester.new(@client).post(parent, name: name)
+      Algorithmia::Requester.new(@client).post(parent, { name: name })
       true
     end
 
@@ -48,7 +48,7 @@ module Algorithmia
     end
 
     def file(file_name)
-      @client.file(URI.encode(File.join(@data_uri, file_name)))
+      @client.file(File.join(@data_uri, CGI.escape(file_name)))
     end
 
     def put_file(file_path)
@@ -67,7 +67,7 @@ module Algorithmia
     def extract_folders(dir)
       folders = dir.parsed_response['folders'] || []
       folders.map do |f|
-        @client.dir(URI.encode(File.join(@data_uri, f['name'])))
+        @client.dir(File.join(@data_uri, CGI.escape(f['name'])))
       end
     end
 
