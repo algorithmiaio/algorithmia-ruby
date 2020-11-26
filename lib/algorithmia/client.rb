@@ -8,9 +8,14 @@ module Algorithmia
       @api_address = api_address || ENV['ALGORITHMIA_API'] || "https://api.algorithmia.com"
     end
 
-    def algo(endpoint)
-      Algorithmia::Algorithm.new(self, endpoint)
+    def algo(endpoint, path = '/v1/algo/')
+      Algorithmia::Algorithm.new(self, endpoint.prepend(path))
     end
+
+    def get_algo(user_name, algo_name)
+      algo(user_name.concat('/').concat(algo_name), '/v1/algorithms/').algo
+    end
+
 
     def file(endpoint)
       Algorithmia::DataFile.new(self, endpoint)

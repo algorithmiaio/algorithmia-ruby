@@ -39,4 +39,10 @@ describe Algorithmia::Algorithm do
   #   expect{ algo.pipe(2) }.to raise_error(Algorithmia::Errors::AlgorithmError)
   # end
 
+  it 'can get an Algorithm object from this client' do
+    result = test_client.get_algo("jakemuntarsi", "Hello")
+    expect(result.response["name"]).to eq('Hello')
+    expect(result.response["resource_type"]).to eq('algorithm')
+  end
+
 end

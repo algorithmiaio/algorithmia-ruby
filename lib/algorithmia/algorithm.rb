@@ -3,7 +3,7 @@ module Algorithmia
 
     def initialize(client, endpoint)
       @client = client
-      @endpoint = '/v1/algo/' + endpoint
+      @endpoint = endpoint
       @query = {}
     end
 
@@ -26,5 +26,14 @@ module Algorithmia
       response = Algorithmia::Requester.new(@client).post(@endpoint, input, query: @query, headers: headers, timeout: client_timeout)
       Algorithmia::Response.new(response.parsed_response, @query[:output])
     end
+
+    def algo
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
   end
 end
