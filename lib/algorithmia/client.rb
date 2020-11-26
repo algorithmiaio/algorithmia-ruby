@@ -26,6 +26,13 @@ module Algorithmia
           .algo_builds(limit, marker)
     end
 
+    def get_algo_build_logs(user_name, algo_name, build_id)
+      algo(user_name.concat('/').concat(algo_name)
+               .concat('/builds/').concat(build_id)
+               .concat('/logs'), '/v1/algorithms/')
+          .algo_build_logs
+    end
+
     def file(endpoint)
       Algorithmia::DataFile.new(self, endpoint)
     end

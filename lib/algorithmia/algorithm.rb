@@ -57,5 +57,13 @@ module Algorithmia
       Algorithmia::Response.new(response.parsed_response, @query[:output])
     end
 
+    def algo_build_logs()
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
   end
 end

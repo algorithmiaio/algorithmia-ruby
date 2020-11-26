@@ -56,4 +56,9 @@ describe Algorithmia::Algorithm do
     expect(result.instance_variable_get(:@response)['results'].size).to eq(2)
   end
 
+  it 'it Get build logs for an Algorithm object from this client' do
+    result = test_client.get_algo_build_logs("jakemuntarsi", "Hello", '2fb99aaa-9634-487f-b6bd-22d55c183b43')
+    expect(result.instance_variable_get(:@response)['logs']).to be_truthy
+  end
+
 end
