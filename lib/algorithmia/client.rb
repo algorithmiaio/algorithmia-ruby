@@ -16,6 +16,10 @@ module Algorithmia
       algo(user_name.concat('/').concat(algo_name), '/v1/algorithms/').algo
     end
 
+    def get_algo_versions(user_name, algo_name, callable, limit, published, marker)
+      algo(user_name.concat('/').concat(algo_name).concat('/versions'), '/v1/algorithms/')
+          .algo_versions(callable, limit, published, marker)
+    end
 
     def file(endpoint)
       Algorithmia::DataFile.new(self, endpoint)

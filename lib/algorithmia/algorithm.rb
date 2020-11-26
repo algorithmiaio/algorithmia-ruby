@@ -35,5 +35,17 @@ module Algorithmia
       Algorithmia::Response.new(response.parsed_response, @query[:output])
     end
 
+    def algo_versions(callable, limit, published, marker)
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      @query[:callable] = callable if callable
+      @query[:limit] = limit if limit
+      @query[published] = published if published
+      @query[marker] = marker if marker
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
   end
 end

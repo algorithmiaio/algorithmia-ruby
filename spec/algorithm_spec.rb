@@ -45,4 +45,10 @@ describe Algorithmia::Algorithm do
     expect(result.response["resource_type"]).to eq('algorithm')
   end
 
+  it 'it list algorithm versions from this client' do
+    result = test_client.get_algo_versions("jakemuntarsi", "Hello", nil, nil, nil, nil)
+    expect(result.instance_variable_get(:@response)['results'].size).to eq(2)
+    expect(result.instance_variable_get(:@response)['results'][1]["name"]).to eq('Hello')
+  end
+
 end
