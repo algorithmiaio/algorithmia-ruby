@@ -51,4 +51,9 @@ describe Algorithmia::Algorithm do
     expect(result.instance_variable_get(:@response)['results'][1]["name"]).to eq('Hello')
   end
 
+  it 'it list algorithm builds from this client' do
+    result = test_client.get_algo_builds("jakemuntarsi", "Hello", nil, nil)
+    expect(result.instance_variable_get(:@response)['results'].size).to eq(2)
+  end
+
 end
