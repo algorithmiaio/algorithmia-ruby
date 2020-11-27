@@ -13,7 +13,7 @@ module Algorithmia
     end
 
     def get_algo(user_name, algo_name)
-      algo(user_name.concat('/').concat(algo_name), '/v1/algorithms/').algo
+      algo(user_name.concat('/').concat(algo_name), '/v1/algorithms/').get_algo
     end
 
     def get_algo_versions(user_name, algo_name, callable, limit, published, marker)
@@ -31,6 +31,10 @@ module Algorithmia
                .concat('/builds/').concat(build_id)
                .concat('/logs'), '/v1/algorithms/')
           .algo_build_logs
+    end
+
+    def delete_algo(user_name, algo_name)
+      algo(user_name.concat('/').concat(algo_name), '/v1/algorithms/').delete_algo
     end
 
     def file(endpoint)

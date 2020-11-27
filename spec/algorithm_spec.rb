@@ -61,4 +61,12 @@ describe Algorithmia::Algorithm do
     expect(result.instance_variable_get(:@response)['logs']).to be_truthy
   end
 
+  it 'it Delete an Algorithm from this client' do
+    algo_name = create_test_algo
+    result = test_client.delete_algo("jakemuntarsi", algo_name)
+    expect(result.instance_variable_get(:@response)).to be_nil
+  end
+
+
+
 end

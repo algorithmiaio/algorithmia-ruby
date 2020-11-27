@@ -27,11 +27,16 @@ module Algorithmia
       Algorithmia::Response.new(response.parsed_response, @query[:output])
     end
 
-    def algo
+    def get_algo
       headers = {
           'Content-Type' => 'application/json'
       }
       response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def delete_algo
+      response = Algorithmia::Requester.new(@client).delete(@endpoint, query: @query)
       Algorithmia::Response.new(response.parsed_response, @query[:output])
     end
 
