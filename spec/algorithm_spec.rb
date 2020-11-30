@@ -67,9 +67,9 @@ describe Algorithmia::Algorithm do
     expect(result.instance_variable_get(:@response)).to be_nil
   end
 
-  it 'it List Algorithm SCMs from this client' do
-    result = test_client.list_scms
-    expect(result.instance_variable_get(:@response)['results'].size).to eq(2)
+  it 'it Get Algorithm SCM from this client' do
+    result = test_client.get_scm('internal')
+    expect(result.instance_variable_get(:@response)['enabled']).to eq(true)
   end
 
 end
