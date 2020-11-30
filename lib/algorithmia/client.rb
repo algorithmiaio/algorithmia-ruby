@@ -26,6 +26,10 @@ module Algorithmia
           .algo_builds(limit, marker)
     end
 
+    def list_scms()
+      algo('', '/v1/scms').list_scms
+    end
+
     def get_algo_build_logs(user_name, algo_name, build_id)
       algo(user_name.concat('/').concat(algo_name)
                .concat('/builds/').concat(build_id)
