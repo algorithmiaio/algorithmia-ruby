@@ -8,8 +8,41 @@ module Algorithmia
       @api_address = api_address || ENV['ALGORITHMIA_API'] || "https://api.algorithmia.com"
     end
 
-    def algo(endpoint)
-      Algorithmia::Algorithm.new(self, endpoint)
+    def algo(endpoint, path = '/v1/algo/')
+      Algorithmia::Algorithm.new(self, endpoint.prepend(path))
+    end
+
+    def get_algo(user_name, algo_name)
+      algo(user_name.concat('/').concat(algo_name), '/v1/algorithms/').get_algo
+    end
+
+    def get_algo_versions(user_name, algo_name, callable, limit, published, marker)
+      algo(user_name.concat('/').concat(algo_name).concat('/versions'), '/v1/algorithms/')
+          .algo_versions(callable, limit, published, marker)
+    end
+
+    def get_algo_builds(user_name, algo_name, limit, marker)
+      algo(user_name.concat('/').concat(algo_name).concat('/builds'), '/v1/algorithms/')
+          .algo_builds(limit, marker)
+    end
+
+    def list_scms()
+      algo('', '/v1/scms').list_scms
+    end
+
+    def get_scm(scm_id)
+      algo('/'.concat(scm_id), '/v1/scms').get_scm
+    end
+
+    def get_algo_build_logs(user_name, algo_name, build_id)
+      algo(user_name.concat('/').concat(algo_name)
+               .concat('/builds/').concat(build_id)
+               .concat('/logs'), '/v1/algorithms/')
+          .algo_build_logs
+    end
+
+    def delete_algo(user_name, algo_name)
+      algo(user_name.concat('/').concat(algo_name), '/v1/algorithms/').delete_algo
     end
 
     def file(endpoint)

@@ -39,4 +39,37 @@ describe Algorithmia::Algorithm do
   #   expect{ algo.pipe(2) }.to raise_error(Algorithmia::Errors::AlgorithmError)
   # end
 
+  it 'can get an Algorithm object from this client' do
+    result = test_client.get_algo("jakemuntarsi", "Hello")
+    expect(result.response["name"]).to eq('Hello')
+    expect(result.response["resource_type"]).to eq('algorithm')
+  end
+
+  it 'it list algorithm versions from this client' do
+    result = test_client.get_algo_versions("jakemuntarsi", "Hello", nil, nil, nil, nil)
+    expect(result.instance_variable_get(:@response)['results'].size).to eq(2)
+    expect(result.instance_variable_get(:@response)['results'][1]["name"]).to eq('Hello')
+  end
+
+  it 'it list algorithm builds from this client' do
+    result = test_client.get_algo_builds("jakemuntarsi", "Hello", nil, nil)
+    expect(result.instance_variable_get(:@response)['results'].size).to eq(2)
+  end
+
+  it 'it Get build logs for an Algorithm object from this client' do
+    result = test_client.get_algo_build_logs("jakemuntarsi", "Hello", '2fb99aaa-9634-487f-b6bd-22d55c183b43')
+    expect(result.instance_variable_get(:@response)['logs']).to be_truthy
+  end
+
+  it 'it Delete an Algorithm from this client' do
+    algo_name = create_test_algo
+    result = test_client.delete_algo("jakemuntarsi", algo_name)
+    expect(result.instance_variable_get(:@response)).to be_nil
+  end
+
+  it 'it Get Algorithm SCM from this client' do
+    result = test_client.get_scm('internal')
+    expect(result.instance_variable_get(:@response)['enabled']).to eq(true)
+  end
+
 end
