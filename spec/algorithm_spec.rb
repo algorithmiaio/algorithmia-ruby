@@ -67,9 +67,9 @@ describe Algorithmia::Algorithm do
     expect(result.instance_variable_get(:@response)).to be_nil
   end
 
-  it 'it Get Algorithm SCM from this client' do
-    result = test_client.get_scm('internal')
-    expect(result.instance_variable_get(:@response)['enabled']).to eq(true)
+  it 'it Get Algorithm SCM Status from this client' do
+    result = test_client.get_scm_status("jakemuntarsi", "Hello")
+    expect(result.response["scm_connection_status"]).to eq('active')
   end
 
 end

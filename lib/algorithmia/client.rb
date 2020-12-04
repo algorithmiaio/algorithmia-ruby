@@ -34,6 +34,10 @@ module Algorithmia
       algo('/'.concat(scm_id), '/v1/scms').get_scm
     end
 
+    def get_scm_status(user_name, algo_name)
+      algo(user_name.concat('/').concat(algo_name).concat('/scm/status'), '/v1/algorithms/').get_scm_status
+    end
+
     def get_algo_build_logs(user_name, algo_name, build_id)
       algo(user_name.concat('/').concat(algo_name)
                .concat('/builds/').concat(build_id)
