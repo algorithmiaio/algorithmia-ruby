@@ -8,6 +8,7 @@ cache:
 before_script:
   - ruby -v  # Print out ruby version for debugging
   - gem install bundler
+  - gem install rspec
   - bundle install -j $(nproc) --path vendor  # Install dependencies into ./vendor/ruby
 
 rspec:
