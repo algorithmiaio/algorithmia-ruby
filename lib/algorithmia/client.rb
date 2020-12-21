@@ -45,9 +45,9 @@ module Algorithmia
           .algo_build_logs
     end
 
-    #def revoke_scm_status(scm_id)
-    #  algo(scm_id.concat('/oauth/revoke'), '/v1/scms/').revoke_scm_status
-    #end
+    def revoke_scm_status(scm_id)
+      algo(scm_id.concat('/oauth/revoke'), '/v1/scms/').revoke_scm_status
+    end
 
     def delete_algo(user_name, algo_name)
       algo(user_name.concat('/').concat(algo_name), '/v1/algorithms/').delete_algo
