@@ -72,4 +72,9 @@ describe Algorithmia::Algorithm do
     expect(result.response["scm_connection_status"]).to eq('active')
   end
 
+  #it 'it Revoke an Algorithm SCM status from this client' do
+  #  result = test_client.revoke_scm_status( "internal")
+  #  expect(result.response["scm_connection_status"]).to eq('active')
+  #end
+
 end
