@@ -102,5 +102,37 @@ module Algorithmia
       Algorithmia::Response.new(response.parsed_response, @query[:output])
     end
 
+    def create_organization(input)
+      client_timeout = (@query[:timeout] || 300) + 10
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).post(@endpoint, input, query: @query, headers: headers, timeout: client_timeout)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def update_organization(input)
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).put(@endpoint, input, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def get_organization
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def delete_organization
+      response = Algorithmia::Requester.new(@client).delete(@endpoint, query: @query)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+
+
   end
 end

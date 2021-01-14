@@ -53,6 +53,22 @@ module Algorithmia
       algo(user_name.concat('/').concat(algo_name), '/v1/algorithms/').delete_algo
     end
 
+    def create_organization(organization)
+      algo('/organizations', '/v1').create_organization(organization)
+    end
+
+    def update_organization(org_name, organization)
+      algo("/organizations/#{org_name}", '/v1').update_organization(organization)
+    end
+
+    def get_organization(org_name)
+      algo("/organizations/#{org_name}", '/v1').get_organization
+    end
+
+    def delete_organization(org_name)
+      algo("/organizations/#{org_name}", '/v1').delete_organization
+    end
+
     def file(endpoint)
       Algorithmia::DataFile.new(self, endpoint)
     end

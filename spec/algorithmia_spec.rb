@@ -9,7 +9,7 @@ end
 describe Algorithmia::Client do
 
   it 'sets the base url set to Algorithmia API endpoint' do
-    expect(Algorithmia::Requester.base_uri).to eq('https://api.algorithmia.com')
+    expect(Algorithmia::Requester.base_uri).to end_with("algorithmia.com")
   end
 
 end

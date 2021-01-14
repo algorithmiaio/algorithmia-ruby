@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'digest'
+require 'json'
 
 describe Algorithmia::Algorithm do
   it 'can make json api call' do
@@ -72,9 +73,58 @@ describe Algorithmia::Algorithm do
     expect(result.response["scm_connection_status"]).to eq('active')
   end
 
+  it 'it Creates an Organization from this client' do
+    time_now = Time.now.to_i
+    org_name = "MyOrg#{time_now}"
+    organization = OpenStruct.new(org_name: org_name,
+                              org_label: "myLabel",
+                              org_contact_name: "some owner",
+                              org_email: "#{org_name}@algo.com",
+                              external_id: "ext_#{time_now}",
+                              external_admin_group: "ext_admin_#{time_now}",
+                              external_member_group: "ext_member_#{time_now}")
+
+    result = test_admin.create_organization(organization.to_h.to_json)
+    expect(result.response["org_name"]).to eq(org_name)
+    expect(result.response["org_label"]).to eq("myLabel")
+    expect(result.response["org_contact_name"]).to eq("some owner")
+    expect(result.response["org_email"]).to eq("#{org_name}@algo.com")
+    expect(result.response["external_id"]).to eq("ext_#{time_now}")
+    expect(result.response["external_admin_group"]).to eq("ext_admin_#{time_now}")
+    expect(result.response["external_member_group"]).to eq("ext_member_#{time_now}")
+    destroy_test_org org_name
+  end
+
+  it 'it Get an Organization from this client' do
+    org_name = "MyOrg#{Time.now.to_i}"
+    create_test_org org_name
+    sleep(5)
+    result = test_admin.get_organization org_name
+    expect(result.response["org_name"]).to eq(org_name)
+    destroy_test_org org_name
+  end
+
+  it 'it Updates an Organization from this client' do
+    time_now = Time.now.to_i
+    org_name = "MyOrg#{time_now}"
+    organization = create_test_org(org_name).response
+    sleep(5)
+    organization["org_label"] = "MyOrgLabel#{time_now}"
+    organization["org_contact_name"] = "NewContactName#{time_now}"
+    test_admin.update_organization(org_name, organization.to_json)
+    sleep(5)
+    result = test_admin.get_organization org_name
+    expect(result.response["org_name"]).to eq(org_name)
+    expect(result.response["org_label"]).to eq("MyOrgLabel#{time_now}")
+    expect(result.response["org_contact_name"]).to eq("NewContactName#{time_now}")
+    destroy_test_org org_name
+  end
+
   #it 'it Revoke an Algorithm SCM status from this client' do
   #  result = test_client.revoke_scm_status( "internal")
   #  expect(result.response["scm_connection_status"]).to eq('active')
   #end
 
 end
+
+
