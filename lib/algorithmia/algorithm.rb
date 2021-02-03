@@ -132,6 +132,14 @@ module Algorithmia
       Algorithmia::Response.new(response.parsed_response, @query[:output])
     end
 
+    def get_organization_type_id(type)
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      response.parsed_response.filter{ |r| r["name"] == type }.first["id"]
+    end
+
 
 
   end

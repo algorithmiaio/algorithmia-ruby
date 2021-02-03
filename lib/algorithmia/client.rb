@@ -54,15 +54,23 @@ module Algorithmia
     end
 
     def create_organization(organization)
-      algo('/organizations', '/v1').create_organization(organization)
+      org = JSON.parse(organization)
+      org["type_id"] = get_organization_type_id(org["type_id"])
+      algo('/organizations', '/v1').create_organization(org.to_json)
     end
 
     def update_organization(org_name, organization)
-      algo("/organizations/#{org_name}", '/v1').update_organization(organization)
+      org = JSON.parse(organization)
+      org["type_id"] = get_organization_type_id(org["type_id"])
+      algo("/organizations/#{org_name}", '/v1').update_organization(org.to_json)
     end
 
     def get_organization(org_name)
       algo("/organizations/#{org_name}", '/v1').get_organization
+    end
+
+    def get_organization_type_id(type)
+      algo("/organization/types", '/v1').get_organization_type_id(type)
     end
 
     def delete_organization(org_name)

@@ -10,7 +10,7 @@ end
 
 def test_admin
   expect(ENV['ALGORITHMIA_ADMIN_API_KEY']).to_not be_nil
-  Algorithmia.client(ENV['ALGORITHMIA_ADMIN_API_KEY'],ENV['ALGORITHMIA_ADMIN_API'])
+  Algorithmia.client(ENV['ALGORITHMIA_ADMIN_API_KEY'], ENV['ALGORITHMIA_ADMIN_API'])
 end
 
 def create_test_algo
@@ -32,7 +32,7 @@ def create_test_org(org_name)
                                 external_id: "ext_#{timestamp}",
                                 external_admin_group: "ext_admin_#{timestamp}",
                                 external_member_group: "ext_member_#{timestamp}",
-                                type_id: "3d40e3b0-d82a-11ea-9a3c-0ee5e2d35097",
+                                type_id: "basic",
                                 resource_type: "organization")
   test_admin.create_organization(organization.to_h.to_json)
 end

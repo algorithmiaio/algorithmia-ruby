@@ -82,7 +82,8 @@ describe Algorithmia::Algorithm do
                               org_email: "#{org_name}@algo.com",
                               external_id: "ext_#{time_now}",
                               external_admin_group: "ext_admin_#{time_now}",
-                              external_member_group: "ext_member_#{time_now}")
+                              external_member_group: "ext_member_#{time_now}",
+                              type_id: "basic")
 
     result = test_admin.create_organization(organization.to_h.to_json)
     expect(result.response["org_name"]).to eq(org_name)
@@ -108,8 +109,8 @@ describe Algorithmia::Algorithm do
     time_now = Time.now.to_i
     org_name = "MyOrg#{time_now}"
     organization = create_test_org(org_name).response
-    sleep(5)
     organization["org_label"] = "MyOrgLabel#{time_now}"
+    organization["type_id"] = "legacy"
     organization["org_contact_name"] = "NewContactName#{time_now}"
     test_admin.update_organization(org_name, organization.to_json)
     sleep(5)
@@ -126,5 +127,3 @@ describe Algorithmia::Algorithm do
   #end
 
 end
-
-
