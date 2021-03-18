@@ -29,6 +29,7 @@ def create_test_org(org_name)
                                 org_label: "myLabel",
                                 org_contact_name: "some owner",
                                 org_email: "#{org_name}_#{timestamp}@algo.com",
+                                org_url: "https://algorithmia.com",
                                 external_id: "ext_#{timestamp}",
                                 external_admin_group: "ext_admin_#{timestamp}",
                                 external_member_group: "ext_member_#{timestamp}",
