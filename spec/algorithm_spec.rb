@@ -82,8 +82,6 @@ describe Algorithmia::Algorithm do
                               org_email: "#{org_name}@algo.com",
                               org_url: "https://#{org_name}algo.com",
                               external_id: "ext_#{time_now}",
-                              external_admin_group: "ext_admin_#{time_now}",
-                              external_member_group: "ext_member_#{time_now}",
                               type_id: "basic")
 
     result = test_admin.create_organization(organization.to_h.to_json)
@@ -93,8 +91,6 @@ describe Algorithmia::Algorithm do
     expect(result.response["org_email"]).to eq("#{org_name}@algo.com")
     expect(result.response["org_url"]).to eq("https://#{org_name}algo.com")
     expect(result.response["external_id"]).to eq("ext_#{time_now}")
-    expect(result.response["external_admin_group"]).to eq("ext_admin_#{time_now}")
-    expect(result.response["external_member_group"]).to eq("ext_member_#{time_now}")
     destroy_test_org org_name
   end
 
