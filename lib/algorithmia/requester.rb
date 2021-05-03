@@ -94,7 +94,7 @@ module Algorithmia
         message ||= "The URI requested is invalid or the resource requested does not exist."
         raise Errors::NotFoundError.new(message, response)
       when 500..599
-        message ||= "Whoops! Something is broken."
+        message ||= "There was a problem communicating with Algorithmia. Please contact Algorithmia Support."
         raise Errors::InternalServerError.new(message, response)
       else
         message ||= "#{response.code} - an unknown error occurred"

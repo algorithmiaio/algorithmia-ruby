@@ -3,7 +3,7 @@ module Algorithmia
 
     def initialize(client, endpoint)
       @client = client
-      @endpoint = '/v1/algo/' + endpoint
+      @endpoint = endpoint
       @query = {}
     end
 
@@ -26,5 +26,121 @@ module Algorithmia
       response = Algorithmia::Requester.new(@client).post(@endpoint, input, query: @query, headers: headers, timeout: client_timeout)
       Algorithmia::Response.new(response.parsed_response, @query[:output])
     end
+
+    def get_algo
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def delete_algo
+      response = Algorithmia::Requester.new(@client).delete(@endpoint, query: @query)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def algo_versions(callable, limit, published, marker)
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      @query[:callable] = callable if callable
+      @query[:limit] = limit if limit
+      @query[published] = published if published
+      @query[marker] = marker if marker
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def algo_builds(limit, marker)
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      @query[:limit] = limit if limit
+      @query[marker] = marker if marker
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def algo_build_logs()
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def list_scms()
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def get_scm()
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def get_scm_status
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def revoke_scm_status()
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def create_organization(input)
+      client_timeout = (@query[:timeout] || 300) + 10
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).post(@endpoint, input, query: @query, headers: headers, timeout: client_timeout)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def update_organization(input)
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).put(@endpoint, input, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def get_organization
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def delete_organization
+      response = Algorithmia::Requester.new(@client).delete(@endpoint, query: @query)
+      Algorithmia::Response.new(response.parsed_response, @query[:output])
+    end
+
+    def get_organization_type_id(type)
+      headers = {
+          'Content-Type' => 'application/json'
+      }
+      response = Algorithmia::Requester.new(@client).get(@endpoint, query: @query, headers: headers)
+      response.parsed_response.filter{ |r| r["name"] == type }.first["id"]
+    end
+
+
+
   end
 end
